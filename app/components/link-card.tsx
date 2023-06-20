@@ -15,16 +15,18 @@ import {
     WhatsappIcon,
     WhatsappShareButton,
   } from "react-share";
+import { uiUrl } from "../lib/constants";
 
-export default function LinkCard({type}) {
-    const [copied, setCopied] = React.useState(false);    
+export default function LinkCard({type, id}) {
+    const [copied, setCopied] = React.useState(false);   
+    const link = `${uiUrl}/rank?id=${id}`
 
     const copyLink = () => {
         setCopied(true);
         setTimeout(() => {
             setCopied(false);
         }, 3000);
-        copy('http://abc.com')
+        copy(link)
     }
     return (
         <Grid
@@ -50,7 +52,7 @@ export default function LinkCard({type}) {
                >
                    <div style={styles.linkField}>
                        <Typography variant="body2" color="text.secondary">
-                           http://abc.com
+                          {link}
                        </Typography>
                    </div>
                    <Button  
@@ -68,31 +70,31 @@ export default function LinkCard({type}) {
                    style={{marginTop: 5}}         
                >
                    <TwitterShareButton
-                       url="http://abc.com"
+                       url={link}
                        title="Vote for your favourite musician"
                    >
                        <TwitterIcon size={32} round={true} />
                    </TwitterShareButton>
                    <FacebookShareButton
-                       url="http://abc.com"
+                       url={link}
                        title="Vote for your favourite musician"
                    >
                        <FacebookIcon size={32} round={true} />
                    </FacebookShareButton>
                    <WhatsappShareButton
-                       url="http://abc.com"
+                       url={link}
                        title="Vote for your favourite musician"
                    >
                        <WhatsappIcon size={32} round={true} />
                    </WhatsappShareButton>
                    <LinkedinShareButton
-                       url="http://abc.com"
+                       url={link}
                        title="Vote for your favourite musician"
                    >
                        <LinkedinIcon size={32} round={true} />
                    </LinkedinShareButton>
                    <TelegramShareButton
-                       url="http://abc.com"
+                       url={link}
                        title="Vote for your favourite musician"
                    >
                        <TelegramIcon size={32} round={true} />

@@ -22,8 +22,12 @@ import timeRemaining from "../lib/time-remaining";
 import { cardWidth } from "../lib/constants";
 import LinkCard from "../components/link-card";
 import ResultCard from "../components/result-card";
+import { withUrqlClient } from 'next-urql';
+import { useQuery, cacheExchange, fetchExchange, } from 'urql';
+import { FETCH_POLL_BY_ID }from "../utils/queries";
+import { url } from "../lib/constants";
 
-  const data = {
+  const data1 = {
     title: "Best Musician 2023",
     description: "Rate by trend, quality, lyrics, rhythm and dept",
     contestants: [
@@ -33,7 +37,7 @@ import ResultCard from "../components/result-card";
         "Young Jonn",
         "Wande Coal"
     ],
-    type: "public",
+    type: "private",
     voters: [
         "dretzam@gmail.com",
         "ret@red.com",
@@ -42,17 +46,26 @@ import ResultCard from "../components/result-card";
     ],
     duration: "1:15:15"
 }
-export default function Poll() {   
-    const [pollStatus, setPollStatus] = React.useState('ongoing');
+function Poll() {   
+    const [pollStatus, setPollStatus] = React.useState('completed');
     const [timeLeft, setTimeLeft] = React.useState(timeRemaining());
+    const [isLoading, setIsLoading] = React.useState(false);
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id')
+    console.log('id', id)
 
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-          setTimeLeft(timeRemaining());
-        }, 1000);
+    const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
 
-        return () => clearTimeout(timer);
-    });
+    const { data, fetching, error } = res;
+    console.log('data', data)
+
+    // React.useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //       setTimeLeft(timeRemaining());
+    //     }, 1000);
+
+    //     return () => clearTimeout(timer);
+    // });
 
     const timerComponents = [];
 
@@ -73,6 +86,17 @@ export default function Poll() {
     <main className={stylesMain.main}>
       <Title />
 
+      {fetching ? (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <ActivityIndicator />
+          </Grid>
+      ): (
+
       <Grid
         container
         direction="column"
@@ -82,8 +106,8 @@ export default function Poll() {
         <Grid>
             <FormHeader header="Your Poll" />
         </Grid>
-        {pollStatus === 'ongoing' ? (
-            <LinkCard type={data.type}/>
+        {data?.pollById.status.toLowerCase() === 'ongoing' ? (
+            <LinkCard type={data?.pollById.type} id={data?.pollById.id} />
         ): (
             <ResultCard />
         )}
@@ -103,8 +127,8 @@ export default function Poll() {
              sx={{ m: 2, width: cardWidth }}
              style={styles.card}
         >
-            <h4>{data.title}</h4>
-            {data.description}
+            <h4>{data?.pollById.title}</h4>
+            {data?.pollById.description}
         </Grid>
         <Grid
              container
@@ -112,9 +136,9 @@ export default function Poll() {
              sx={{ m: 2, width: cardWidth }}
              style={styles.card}
         >
-            <h4>Contestants ({data.contestants?.length})</h4>
+            <h4>Contestants ({data?.pollById.contestants?.length})</h4>
             <List>
-                {data.contestants?.map((c) => ( 
+                {data?.pollById.contestants?.map((c) => ( 
                     <ListItem key={c}>
                         <ListItemIcon>
                             <ContactPage />
@@ -133,18 +157,18 @@ export default function Poll() {
              style={styles.card}
         >
             <h4>Poll Type</h4>
-            {data.type?.toUpperCase()}
+            {data?.pollById.type?.toUpperCase()}
         </Grid>
-        {data.type === 'private' && (
+        {data?.pollById.type.toLowerCase() === 'private' && (
             <Grid
                     container
                     direction="column"
                     sx={{ m: 2, width: cardWidth }}
                     style={styles.card}
             >
-                <h4>Voters ({data.voters?.length})</h4>
+                <h4>Voters ({data?.pollById.voters?.length})</h4>
                 <List>
-                    {data.voters?.map((c) => ( 
+                    {data?.pollById.voters?.map((c) => ( 
                         <ListItem key={c}>
                             <ListItemIcon>
                                 <HowToVote />
@@ -166,16 +190,30 @@ export default function Poll() {
             <h4>Duration</h4>
             
             <div>
-                {timerComponents.length ? timerComponents : <span>{data.duration}</span>}
+                {timerComponents.length ? timerComponents :
+                    <span>
+                        {data?.pollById.duration}
+                    </span>
+                }
             </div>
         </Grid>
       </Grid>
+        )}
+
       <div>
         <p>Terms and Conditions apply</p>
       </div>
     </main>
   );
 }
+
+export default withUrqlClient(
+    ssrExchange => ({
+      url,
+      exchanges: [cacheExchange, ssrExchange, fetchExchange],
+    }),
+    { ssr: true }
+  )(Poll);
 
 const styles = {
   input: {

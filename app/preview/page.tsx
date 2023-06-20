@@ -19,8 +19,12 @@ import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { useRouter, useSearchParams } from 'next/navigation'
 import { cardWidth } from "../lib/constants";
+import { withUrqlClient } from 'next-urql';
+import { useMutation, cacheExchange, fetchExchange, } from 'urql';
+import { CREATE_POLL }from "../utils/mutations";
 
-export default function Preview() {
+function Preview() {
+    const [createPollResult, createPoll] = useMutation(CREATE_POLL);
     const searchParams = useSearchParams()
     const router = useRouter()
     const [isLoading, setIsLoading] = React.useState(false);
@@ -42,7 +46,13 @@ export default function Preview() {
             voters,
             duration,
         }
-        console.log('data', data)
+        
+        createPoll(data).then(result => {
+            if (result.error) {
+              console.error('Oh no!', result.error);
+            }
+            console.log('result', result);
+          });
         router.push('/poll')
         setIsLoading(false);
     }
@@ -156,6 +166,22 @@ export default function Preview() {
     </main>
   );
 }
+
+export default withUrqlClient(
+    ssrExchange => ({
+      url: 'http://localhost:8000/graphql',
+      exchanges: [cacheExchange, ssrExchange, fetchExchange],
+      fetchOptions: () => {
+        const token = localStorage.getItem('token');
+        return {
+          headers: { authorization: token ? `JWT ${token}` : '' },
+        };
+      },
+    }),
+    { ssr: true }
+  )(Preview);
+
+
 
 const styles = {
   input: {

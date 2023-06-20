@@ -18,8 +18,13 @@ import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
+import { withUrqlClient } from 'next-urql';
+import { useMutation, cacheExchange, fetchExchange, } from 'urql';
+import { LOGIN, SIGNUP }from "../utils/mutations";
+import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function Signup() {
+function Signup() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = React.useState(false);
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -32,7 +37,10 @@ export default function Signup() {
     event.preventDefault();
   };
 
-  const submit = () => {
+  const [signupResult, signup] = useMutation(SIGNUP);
+  const [loginResult, login] = useMutation(LOGIN);
+
+  const submit = async () => {
     console.log("submit");
     setIsLoading(true);
     const data = {
@@ -40,8 +48,26 @@ export default function Signup() {
         email,
         password
     }
-    console.log('data', data)
+    signup(data).then(result => {
+      if (result.error) {
+        console.error('Oh no!', result.error);
+      }
+      console.log('result', result);
+      localStorage.setItem('name', name);
+      processLogin({ email, password})
+    });
     setIsLoading(false);
+  }
+
+  const processLogin = async (data: any) => {
+    console.log('data', data);
+    login(data).then(result => {
+      if (result.error) {
+        console.error('Oh no!', result.error);
+      }
+      localStorage.setItem('token', result.data.tokenAuth.token);
+      router.push('/')
+    });
   }
 
   const mute = () => {
@@ -126,3 +152,12 @@ const styles = {
     backgroundColor: "#fff",
   },
 };
+
+
+export default withUrqlClient(
+  ssrExchange => ({
+    url: 'http://localhost:8000/graphql',
+    exchanges: [cacheExchange, ssrExchange, fetchExchange],
+  }),
+  { ssr: true }
+)(Signup);
