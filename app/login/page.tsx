@@ -101,18 +101,26 @@ export default function Login() {
             }
           />
         </FormControl>
-        {isLoading ? (
-            <ActivityIndicator />
-        ): (
-        <Button 
-            sx={{ m: 2, width: "30ch" }} 
-            variant="contained"
-            onClick={submit}
-            disabled={!mute()}
+        <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ m: 1, width: cardWidth }} 
         >
-            Continue
-        </Button>
-        )}
+          {isLoading ? (
+              <ActivityIndicator />
+          ): (
+          <Button 
+              sx={{ m: 2, width: "30ch" }} 
+              variant="contained"
+              onClick={submit}
+              disabled={!mute()}
+          >
+              Continue
+          </Button>
+          )}
+        </Grid>
         <Grid
             container
             direction="column"

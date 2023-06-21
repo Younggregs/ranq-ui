@@ -194,6 +194,13 @@ export default function CreatePoll() {
                 }
             }}
         >
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ m: 1, width: cardWidth }} 
+            >
             <Button 
                 sx={{ m: 2, width: cardWidth }} 
                 variant="contained"
@@ -201,6 +208,7 @@ export default function CreatePoll() {
             >
                 Preview
             </Button>
+            </Grid>
         </Link>
       </Grid>
       </Grid>

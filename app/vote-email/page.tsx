@@ -50,6 +50,13 @@ export default function VoteEmail() {
             variant="filled" 
             onChange={(e) => setEmail(e.target.value)}
         />
+        <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ m: 1, width: cardWidth }} 
+            >
         {isLoading ? (
             <ActivityIndicator />
         ): (
@@ -62,6 +69,7 @@ export default function VoteEmail() {
             Continue
         </Button>
         )}
+        </Grid>
         <Grid
             container
             direction="column"

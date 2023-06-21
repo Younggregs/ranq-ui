@@ -46,7 +46,7 @@ export default function Home() {
           </Grid>
         </main>
       ): (
-        false ? <Index /> : <Landing />
+        isLoggedIn ? <Index /> : <Landing />
       )}
     </>
   )

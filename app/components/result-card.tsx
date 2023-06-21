@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { cardWidth } from "../lib/constants";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "../lib/mui";
+import { FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "../lib/mui";
 import copy from "copy-to-clipboard";
 import ResultTable from "./result-table";
 

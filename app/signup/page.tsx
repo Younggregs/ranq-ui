@@ -124,6 +124,13 @@ export default function Signup() {
             }
           />
         </FormControl>
+        <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ m: 1, width: cardWidth }} 
+            >
         {isLoading ? (
             <ActivityIndicator />
         ): (
@@ -136,7 +143,7 @@ export default function Signup() {
             Continue
         </Button>
         )}
-        
+        </Grid>
         <Grid>
             <Link href="/login">
                 Login

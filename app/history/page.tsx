@@ -3,14 +3,6 @@ import * as React from "react";
 import stylesMain from "../page.module.css";
 import {
   Grid,
-  Button,
-  Select,
-  MenuItem,
-  Typography,
-  List,
-  ListItemIcon,
-  ListItem,
-  ListItemText,
 } from "../lib/mui";
 import { Folder, ContactPage, VisibilityOff, HowToVote } from "../lib/mui-icon";
 import copy from 'copy-to-clipboard';

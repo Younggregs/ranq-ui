@@ -15,7 +15,7 @@ export default function Landing() {
         alignItems="center"
       >
           <h3>Welcome to Rank!</h3>
-          <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+          <p>Rank contestants officially and just for fun...</p>
       </Grid>
 
       <Grid

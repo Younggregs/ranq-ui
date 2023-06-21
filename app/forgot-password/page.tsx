@@ -54,18 +54,26 @@ export default function ForgotPassword() {
             variant="filled" 
             onChange={(e) => setEmail(e.target.value)}
         />
-        {isLoading ? (
-            <ActivityIndicator />
-        ): (
-        <Button 
-            sx={{ m: 2, width: cardWidth }} 
-            variant="contained"
-            onClick={submit}
-            disabled={!mute()}
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ m: 1, width: cardWidth }} 
         >
-            Continue
-        </Button>
+          {isLoading ? (
+              <ActivityIndicator />
+          ): (
+          <Button 
+              sx={{ m: 2, width: cardWidth }} 
+              variant="contained"
+              onClick={submit}
+              disabled={!mute()}
+          >
+              Continue
+          </Button>
         )}
+        </Grid>
         <Grid
             container
             direction="column"

@@ -152,6 +152,13 @@ export default function Preview() {
             <h4>Duration</h4>
             {duration?.toUpperCase()}
         </Grid>
+        <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ m: 1, width: cardWidth }} 
+            >
         {isLoading ? (
             <ActivityIndicator />
         ): (
@@ -163,6 +170,7 @@ export default function Preview() {
             Create Poll
         </Button>
         )}
+       </Grid>
       </Grid>
       </Grid>
       <div>
