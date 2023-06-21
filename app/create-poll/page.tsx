@@ -65,11 +65,15 @@ export default function CreatePoll() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+         <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Create Poll" />
         </Grid>
@@ -130,7 +134,6 @@ export default function CreatePoll() {
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
-                sx={{ m: 1, width: "35ch" }} 
             >
 
                 <TextField 
@@ -199,6 +202,7 @@ export default function CreatePoll() {
                 Preview
             </Button>
         </Link>
+      </Grid>
       </Grid>
       <div>
         <p>Terms and Conditions apply</p>

@@ -31,7 +31,11 @@ export default withUrqlClient(
     url,
     exchanges: [cacheExchange, ssrExchange, fetchExchange],
     fetchOptions: () => {
-      const token = localStorage.getItem('token');
+      let token = ''
+      if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        token = localStorage.getItem('token') || ''
+      }
       return {
         headers: { authorization: token ? `JWT ${token}` : '' },
       };

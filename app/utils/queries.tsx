@@ -24,7 +24,23 @@ const FETCH_POLL_BY_ID = gql`
     }
 `;
 
+const FETCH_POLLS = gql`
+  query {
+    polls{
+      id,
+      title,
+      description,
+      contestants,
+      voters,
+      duration,
+      type,
+      status
+    }
+  }
+`;
+
 export {
     FETCH_USERS,
-    FETCH_POLL_BY_ID
+    FETCH_POLL_BY_ID,
+    FETCH_POLLS
 }

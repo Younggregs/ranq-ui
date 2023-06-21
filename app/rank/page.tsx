@@ -11,9 +11,12 @@ import copy from 'copy-to-clipboard';
 import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
-import { useSearchParams } from 'next/navigation'
 import { cardWidth } from "../lib/constants";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useQuery, useMutation,  cacheExchange, fetchExchange, } from 'urql';
+import { useRouter, useSearchParams } from 'next/navigation'
+import { FETCH_POLL_BY_ID }from "../utils/queries";
+import { CREATE_VOTE }from "../utils/mutations";
 
   const data = {
     title: "Best Musician 2023",
@@ -36,31 +39,53 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 }
 export default function Rank() {   
     const [pollStatus, setPollStatus] = React.useState('ongoing');
+    const router = useRouter()
+    const [createVoteResult, createVote] = useMutation(CREATE_VOTE);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [rankedList, setRankedList] = React.useState(data.contestants);
+    const [ranked, setRanked] = React.useState([]);
     const [voted, setVoted] = React.useState(false);
+    const searchParams = useSearchParams()
+    const id = searchParams?.get('id')
+    console.log('id', id)
+
+    const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
+
+    const { data, fetching, error } = res;
+    console.log('data', data)
+    React.useEffect(() => {
+        if (data?.pollById?.contestants)
+          setRanked(data?.pollById.contestants);
+    }, [data]);
 
         // Function to update list on drop
     const handleDrop = (droppedItem: any) => {
       // Ignore drop outside droppable container
       if (!droppedItem.destination) return;
-      var updatedList = [...rankedList];
+      var updatedList = [...ranked];
       // Remove dragged item
       const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1);
       // Add dropped item
       updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
       // Update State
-      setRankedList(updatedList);
+      setRanked(updatedList);
     };
 
     const submit = () => {
-      console.log("submit");
       setIsLoading(true);
-      setVoted(true);
+      const data = {
+        id,
+        ranked,
+      }
+      createVote(data).then(result => {
+        if (result.error) {
+          console.error('Oh no!', result.error);
+        }
+        console.log('result', result);
+        setVoted(true);
+      });
+      
       setIsLoading(false);
     }
-
-    console.log('rankedList', rankedList)
 
   return (
     <main className={stylesMain.main}>
@@ -68,8 +93,6 @@ export default function Rank() {
 
      {voted ?(
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
@@ -85,80 +108,94 @@ export default function Rank() {
       </Grid>
      ) : (
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Rank contestants" />
         </Grid>
         
-        <Grid
-             container
-             direction="column"
-             sx={{ m: 2, width: cardWidth }}
-             style={styles.card}
-        >
-            <h4>{data.title}</h4>
-            {data.description}
-        </Grid>
-        <Grid
-             container
-             direction="column"
-             sx={{ m: 2, width: cardWidth }}
-             style={styles.card}
-        >
-            <h4>Vote Below! Contestants ({data.contestants?.length})</h4>
-            <p>Drag and drop contestants from highest to lowest</p>
-        </Grid>
-        <Grid
-             container
-             direction="column"
-             sx={{ m: 2, width: cardWidth }}
-             style={styles.card}
-        >
-            <DragDropContext onDragEnd={handleDrop}>
-              <Droppable droppableId="list-container">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <Grid sx={styles.listContainer}>
-                  {rankedList.map((item, index) => (
-                    <Draggable key={item} draggableId={item} index={index}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                        >
-                          <Grid style={styles.itemContainer}>
-                            {item}
-                          </Grid>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                  </Grid>
-                </div>
-              )}
-              </Droppable>
-            </DragDropContext>
-        </Grid>
-        {isLoading ? (
+        {fetching ? (
             <ActivityIndicator />
         ): (
-        <Button 
-            sx={{ m: 2, width: "30ch" }} 
-            variant="contained"
-            onClick={() => submit()}
-        >
-            Submit
-        </Button>
+          <Grid>
+          <Grid
+              container
+              direction="column"
+              sx={{ m: 2, width: cardWidth }}
+              style={styles.card}
+          >
+              <h4>{data?.pollById.title}</h4>
+              {data?.pollById.description}
+          </Grid>
+          <Grid
+              container
+              direction="column"
+              sx={{ m: 2, width: cardWidth }}
+              style={styles.card}
+          >
+              <h4>
+                Vote Below! Contestants ({data?.pollById.contestants.length})
+              </h4>
+              <p>Drag and drop contestants from highest to lowest</p>
+          </Grid>
+          <Grid
+              container
+              direction="column"
+              sx={{ m: 2, width: cardWidth }}
+              style={styles.card}
+          >
+              <DragDropContext onDragEnd={handleDrop}>
+                <Droppable droppableId="list-container">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    <Grid sx={styles.listContainer}>
+                    {ranked.map((item: any, index: any) => (
+                      <Draggable key={item} draggableId={item} index={index}>
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.dragHandleProps}
+                            {...provided.draggableProps}
+                          >
+                            <Grid style={styles.itemContainer}>
+                              {item}
+                            </Grid>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                    </Grid>
+                  </div>
+                )}
+                </Droppable>
+              </DragDropContext>
+          </Grid>
+          {isLoading ? (
+            <ActivityIndicator />
+            ): (
+            <Button 
+                sx={{ m: 2, width: "30ch" }} 
+                variant="contained"
+                onClick={() => submit()}
+            >
+                Submit
+            </Button>
+            )}
+          </Grid>
         )}
+        
+      </Grid>
       </Grid>
       )}
       <div>

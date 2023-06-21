@@ -47,7 +47,7 @@ const rows = [
   createData('Gingerbread', 356, "Completed"),
 ];
 
-export default function HistoryTable() {
+export default function HistoryTable({data}: {data: any}) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="customized table">
@@ -60,15 +60,15 @@ export default function HistoryTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row: any) => (
             <StyledTableRow key={row.title}>
               <StyledTableCell component="th" scope="row">
-                {row.title}
+                {row?.title}
               </StyledTableCell>
-              <StyledTableCell>{row.votes}</StyledTableCell>
-              <StyledTableCell>{row.status}</StyledTableCell>
+              <StyledTableCell>{row?.votes}</StyledTableCell>
+              <StyledTableCell>{row?.status}</StyledTableCell>
               <StyledTableCell>
-                <Link href="/poll">
+                <Link href={`/poll?id=${row?.id}`}>
                     <ArrowOutward />
                 </Link>  
                </StyledTableCell>

@@ -78,11 +78,15 @@ export default function Signup() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Signup" />
         </Grid>
@@ -138,6 +142,7 @@ export default function Signup() {
                 Login
             </Link>
         </Grid>
+      </Grid>
       </Grid>
       <div>
         <p>Terms and Conditions apply</p>

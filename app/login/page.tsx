@@ -18,8 +18,12 @@ import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
+import { useMutation } from 'urql';
+import { LOGIN }from "../utils/mutations";
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -31,14 +35,21 @@ export default function Login() {
     event.preventDefault();
   };
 
+  const [loginResult, login] = useMutation(LOGIN);
+
   const submit = () => {
-    console.log("submit");
     setIsLoading(true);
     const data = {
         email,
         password
     }
-    console.log('data', data)
+    login(data).then(result => {
+      if (result.error) {
+        console.error('Oh no!', result.error);
+      }
+      localStorage.setItem('token', result.data.tokenAuth.token);
+      router.push('/')
+    });
     setIsLoading(false);
   }
 
@@ -51,11 +62,15 @@ export default function Login() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+         <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Login" />
         </Grid>
@@ -116,6 +131,7 @@ export default function Login() {
                 </Link>
             </div>
         </Grid>
+      </Grid>
       </Grid>
       <div>
         <p>Terms and Conditions apply</p>

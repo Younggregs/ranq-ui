@@ -86,8 +86,6 @@ export default function Poll() {
 
       {fetching ? (
           <Grid
-            container
-            direction="column"
             justifyContent="center"
             alignItems="center"
           >
@@ -96,11 +94,15 @@ export default function Poll() {
       ): (
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Your Poll" />
         </Grid>
@@ -196,7 +198,8 @@ export default function Poll() {
             </div>
         </Grid>
       </Grid>
-        )}
+      </Grid>
+      )}
 
       <div>
         <p>Terms and Conditions apply</p>

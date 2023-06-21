@@ -20,51 +20,37 @@ import ActivityIndicator from "../components/activity-indicator";
 import { useSearchParams } from 'next/navigation'
 import { cardWidth } from "../lib/constants";
 import HistoryTable from "../components/history-table";
+import { useQuery, cacheExchange, fetchExchange, } from 'urql';
+import { FETCH_POLLS } from "../utils/queries";
 
-  const data = {
-    title: "Best Musician 2023",
-    description: "Rate by trend, quality, lyrics, rhythm and dept",
-    contestants: [
-        "Davido",
-        "Asake",
-        "Seyi Vibes",
-        "Young Jonn",
-        "Wande Coal"
-    ],
-    type: "public",
-    voters: [
-        "dretzam@gmail.com",
-        "ret@red.com",
-        "doll@gmail.com",
-        "drape@gmail.com"
-    ],
-    duration: "1:15:15"
-}
 export default function History() {   
     const [pollStatus, setPollStatus] = React.useState('ongoing');
     const [isLoading, setIsLoading] = React.useState(false);
+    const [res] = useQuery({query: FETCH_POLLS});
+    const { data, fetching, error } = res;
+    console.log('data', data)
 
   return (
     <main className={stylesMain.main}>
       <Title />
 
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid>
         <Grid>
             <FormHeader header="History (12)" />
         </Grid>
-        <Grid
+        {fetching ? (
+          <ActivityIndicator />
+          ): (
+          <Grid
             container
             direction="column"
             sx={{ m: 2, width: "40ch" }}
             style={styles.card}
-        >
-            <HistoryTable />
-        </Grid>
+          >
+            <HistoryTable data={data.polls}/>
+          </Grid>
+        )}
+        
       </Grid>
       <div>
         <p>Terms and Conditions apply</p>

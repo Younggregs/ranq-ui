@@ -51,8 +51,9 @@ export default function Preview() {
               console.error('Oh no!', result.error);
             }
             console.log('result', result);
+            router.push(`/poll?id=${result.data.createPoll.poll.id}`)
           });
-        router.push('/poll')
+        
         setIsLoading(false);
     }
 
@@ -61,11 +62,15 @@ export default function Preview() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Preview" />
         </Grid>
@@ -158,6 +163,7 @@ export default function Preview() {
             Create Poll
         </Button>
         )}
+      </Grid>
       </Grid>
       <div>
         <p>Terms and Conditions apply</p>

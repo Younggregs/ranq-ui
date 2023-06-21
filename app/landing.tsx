@@ -11,8 +11,6 @@ export default function Landing() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
@@ -23,8 +21,9 @@ export default function Landing() {
       <Grid
         container
         direction="column"
-        justifyContent="center"
-        alignItems="center"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        sx={{ m: 2, width: cardWidth }}
       >
         <Link href="/login">
           <Grid
@@ -32,7 +31,7 @@ export default function Landing() {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            sx={{ m:3, width: cardWidth }}
+            sx={{ m:2, width: cardWidth }}
             style={styles.card}
           >
               <h2>
@@ -46,7 +45,7 @@ export default function Landing() {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            sx={{ m: 3, width: cardWidth }}
+            sx={{ m: 2, width: cardWidth }}
             style={styles.card}
           >
               <h2>

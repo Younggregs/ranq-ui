@@ -17,8 +17,6 @@ export default function Index() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >

@@ -10,7 +10,7 @@ import { Grid } from "./lib/mui";
 
 export default function Home() {
   const [verifyTokenResult, verifyToken] = useMutation(VERIFY_TOKEN);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   
   React.useEffect(() => {
@@ -46,7 +46,7 @@ export default function Home() {
           </Grid>
         </main>
       ): (
-        isLoggedIn ? <Index /> : <Landing />
+        false ? <Index /> : <Landing />
       )}
     </>
   )

@@ -49,11 +49,15 @@ export default function ResetPassword() {
       <Title />
 
       <Grid
-        container
-        direction="column"
         justifyContent="center"
         alignItems="center"
       >
+         <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
         <Grid>
             <FormHeader header="Reset Password" />
         </Grid>
@@ -89,6 +93,7 @@ export default function ResetPassword() {
             Continue
         </Button>
         )}
+      </Grid>
       </Grid>
       <div>
         <p>Terms and Conditions apply</p>

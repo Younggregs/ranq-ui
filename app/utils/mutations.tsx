@@ -32,8 +32,18 @@ const CREATE_POLL = gql`
     mutation CreatePoll($title: String!, $description: String!, $contestants: [String!], $voters: [String!], $duration: String!, $type: String!) {
         createPoll(title: $title, description: $description, contestants: $contestants, voters: $voters, duration: $duration, type: $type) {
             poll{
+                id,
                 title,
-                description
+            }
+        }
+    }
+`;
+
+const CREATE_VOTE = gql`
+     mutation CreateVote($id: String!, $ranked: [String!]) {
+        createVote(id: $id, ranked: $ranked) {
+            poll{
+                id
             }
         }
     }
@@ -43,5 +53,6 @@ export {
     SIGNUP,
     LOGIN,
     VERIFY_TOKEN,
-    CREATE_POLL
+    CREATE_POLL,
+    CREATE_VOTE
 }
