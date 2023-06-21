@@ -18,12 +18,11 @@ import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
-import { withUrqlClient } from 'next-urql';
 import { useMutation, cacheExchange, fetchExchange, } from 'urql';
 import { LOGIN, SIGNUP }from "../utils/mutations";
 import { useRouter, useSearchParams } from 'next/navigation'
 
-function Signup() {
+export default function Signup() {
   const router = useRouter()
   const [showPassword, setShowPassword] = React.useState(false);
   const [name, setName] = React.useState("");
@@ -152,12 +151,3 @@ const styles = {
     backgroundColor: "#fff",
   },
 };
-
-
-export default withUrqlClient(
-  ssrExchange => ({
-    url: 'http://localhost:8000/graphql',
-    exchanges: [cacheExchange, ssrExchange, fetchExchange],
-  }),
-  { ssr: true }
-)(Signup);

@@ -22,10 +22,8 @@ import timeRemaining from "../lib/time-remaining";
 import { cardWidth } from "../lib/constants";
 import LinkCard from "../components/link-card";
 import ResultCard from "../components/result-card";
-import { withUrqlClient } from 'next-urql';
 import { useQuery, cacheExchange, fetchExchange, } from 'urql';
 import { FETCH_POLL_BY_ID }from "../utils/queries";
-import { url } from "../lib/constants";
 
   const data1 = {
     title: "Best Musician 2023",
@@ -46,12 +44,12 @@ import { url } from "../lib/constants";
     ],
     duration: "1:15:15"
 }
-function Poll() {   
+export default function Poll() {   
     const [pollStatus, setPollStatus] = React.useState('completed');
     const [timeLeft, setTimeLeft] = React.useState(timeRemaining());
     const [isLoading, setIsLoading] = React.useState(false);
     const searchParams = useSearchParams()
-    const id = searchParams.get('id')
+    const id = searchParams?.get('id')
     console.log('id', id)
 
     const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
@@ -67,20 +65,20 @@ function Poll() {
     //     return () => clearTimeout(timer);
     // });
 
-    const timerComponents = [];
+    const timerComponents: any = [];
 
-    Object.keys(timeLeft).forEach((interval) => {
+    // Object.keys(timeLeft).forEach((interval) => {
         
-        timerComponents.push(
-            <span>
-            {!timeLeft[interval]? (
-                0
-            ): (
-                timeLeft[interval]
-            )}
-            </span>
-        );
-    });
+    //     timerComponents.push(
+    //         <span>
+    //         {!timeLeft[interval]? (
+    //             0
+    //         ): (
+    //             timeLeft[interval]
+    //         )}
+    //         </span>
+    //     );
+    // });
 
   return (
     <main className={stylesMain.main}>
@@ -138,7 +136,7 @@ function Poll() {
         >
             <h4>Contestants ({data?.pollById.contestants?.length})</h4>
             <List>
-                {data?.pollById.contestants?.map((c) => ( 
+                {data?.pollById.contestants?.map((c: any) => ( 
                     <ListItem key={c}>
                         <ListItemIcon>
                             <ContactPage />
@@ -168,7 +166,7 @@ function Poll() {
             >
                 <h4>Voters ({data?.pollById.voters?.length})</h4>
                 <List>
-                    {data?.pollById.voters?.map((c) => ( 
+                    {data?.pollById.voters?.map((c: any) => ( 
                         <ListItem key={c}>
                             <ListItemIcon>
                                 <HowToVote />
@@ -207,13 +205,6 @@ function Poll() {
   );
 }
 
-export default withUrqlClient(
-    ssrExchange => ({
-      url,
-      exchanges: [cacheExchange, ssrExchange, fetchExchange],
-    }),
-    { ssr: true }
-  )(Poll);
 
 const styles = {
   input: {

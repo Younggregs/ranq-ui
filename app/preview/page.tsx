@@ -19,22 +19,21 @@ import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { useRouter, useSearchParams } from 'next/navigation'
 import { cardWidth } from "../lib/constants";
-import { withUrqlClient } from 'next-urql';
 import { useMutation, cacheExchange, fetchExchange, } from 'urql';
 import { CREATE_POLL }from "../utils/mutations";
 
-function Preview() {
+export default function Preview() {
     const [createPollResult, createPoll] = useMutation(CREATE_POLL);
     const searchParams = useSearchParams()
     const router = useRouter()
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const title = searchParams.get('title')
-    const description = searchParams.get('description')
-    const contestants = searchParams.get('contestants')?.split(',').map((c) => c.trim())
-    const type = searchParams.get('type')
-    const voters = searchParams.get('voters')?.split(',').map((c) => c.trim())
-    const duration = searchParams.get('duration')
+    const title = searchParams?.get('title')
+    const description = searchParams?.get('description')
+    const contestants = searchParams?.get('contestants')?.split(',').map((c) => c.trim())
+    const type = searchParams?.get('type')
+    const voters = searchParams?.get('voters')?.split(',').map((c) => c.trim())
+    const duration = searchParams?.get('duration')
 
     const submit = () => {
         setIsLoading(true);
@@ -117,7 +116,7 @@ function Preview() {
             <h4>Poll Type</h4>
             {type?.toUpperCase()}
         </Grid>
-        {searchParams.get('type') === 'private' && (
+        {searchParams?.get('type') === 'private' && (
             <Grid
                     container
                     direction="column"
@@ -166,20 +165,6 @@ function Preview() {
     </main>
   );
 }
-
-export default withUrqlClient(
-    ssrExchange => ({
-      url: 'http://localhost:8000/graphql',
-      exchanges: [cacheExchange, ssrExchange, fetchExchange],
-      fetchOptions: () => {
-        const token = localStorage.getItem('token');
-        return {
-          headers: { authorization: token ? `JWT ${token}` : '' },
-        };
-      },
-    }),
-    { ssr: true }
-  )(Preview);
 
 
 

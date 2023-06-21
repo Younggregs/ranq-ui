@@ -1,7 +1,7 @@
 import { cardWidth } from "../lib/constants"
 import { Grid } from "../lib/mui"
 
-export default function FormHeader ({header}) {
+export default function FormHeader ({header}: {header: string}) {
     return (
         <Grid
             container

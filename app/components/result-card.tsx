@@ -5,17 +5,8 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } f
 import copy from "copy-to-clipboard";
 import ResultTable from "./result-table";
 
-export default function Result() {
-    const [copied, setCopied] = React.useState(false);  
+export default function Result() { 
     const [type, setType] = React.useState('');
-
-    const copyLink = () => {
-        setCopied(true);
-        setTimeout(() => {
-            setCopied(false);
-        }, 3000);
-        copy('http://abc.com')
-    } 
 
     return (
         <Grid

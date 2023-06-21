@@ -17,7 +17,7 @@ import {
   } from "react-share";
 import { uiUrl } from "../lib/constants";
 
-export default function LinkCard({type, id}) {
+export default function LinkCard({type, id}: {type: string, id: string}) {
     const [copied, setCopied] = React.useState(false);   
     const link = `${uiUrl}/rank?id=${id}`
 

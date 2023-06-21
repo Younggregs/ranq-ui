@@ -41,7 +41,7 @@ export default function Rank() {
     const [voted, setVoted] = React.useState(false);
 
         // Function to update list on drop
-    const handleDrop = (droppedItem) => {
+    const handleDrop = (droppedItem: any) => {
       // Ignore drop outside droppable container
       if (!droppedItem.destination) return;
       var updatedList = [...rankedList];
@@ -122,10 +122,10 @@ export default function Rank() {
               <Droppable droppableId="list-container">
               {(provided) => (
                 <div
-                  style={styles.listContainer}
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
+                  <Grid sx={styles.listContainer}>
                   {rankedList.map((item, index) => (
                     <Draggable key={item} draggableId={item} index={index}>
                       {(provided) => (
@@ -142,6 +142,7 @@ export default function Rank() {
                     </Draggable>
                   ))}
                   {provided.placeholder}
+                  </Grid>
                 </div>
               )}
               </Droppable>
