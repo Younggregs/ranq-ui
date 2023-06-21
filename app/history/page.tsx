@@ -47,7 +47,7 @@ export default function History() {
             sx={{ m: 2, width: "40ch" }}
             style={styles.card}
           >
-            <HistoryTable data={data.polls}/>
+            <HistoryTable data={data?.polls}/>
           </Grid>
         )}
         
