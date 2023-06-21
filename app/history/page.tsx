@@ -28,7 +28,7 @@ export default function History() {
 
       <Grid>
         <Grid>
-            <FormHeader header="History (12)" />
+            <FormHeader header={`History (${data?.polls.length || 0})`} />
         </Grid>
         {fetching ? (
           <ActivityIndicator />

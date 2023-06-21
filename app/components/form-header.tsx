@@ -11,9 +11,7 @@ export default function FormHeader ({header}: {header: string}) {
             alignItems="center"
             sx={{ m: 1, width: cardWidth }}
         >
-            <Link href={'/'}>
-                {header}
-            </Link>
+            {header}
         </Grid>
         )
 
