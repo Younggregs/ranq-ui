@@ -18,15 +18,16 @@ export default function Home() {
         setIsLoading(true);
         const token = localStorage.getItem('token')
         verifyToken({token}).then(result => {
+          setIsLoading(false);
           if (result.error) {
             console.error('Oh no!', result.error);
             setIsLoggedIn(false);
+          }else{
+            console.log('result', result);
+            setIsLoggedIn(true);
           }
-          console.log('result', result);
-          setIsLoggedIn(true);
         });
-        setIsLoading(false);
-      
+        
     }
     verify()
   }, [verifyToken])

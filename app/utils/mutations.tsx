@@ -34,6 +34,7 @@ const CREATE_POLL = gql`
             poll{
                 id,
                 title,
+                token
             }
         }
     }
@@ -50,13 +51,23 @@ const CREATE_VOTE = gql`
 `;
 
 const VERIFY_EMAIL = gql`
- mutation EmailVerification($email: String!, $type: String!) {
-  emailVerification(email: $email, type: $type) {
-    emailToken{
-        email
+    mutation EmailVerification($email: String!, $type: String!) {
+    emailVerification(email: $email, type: $type) {
+        emailToken{
+            email
+        }
     }
-  }
- }
+    }
+`;
+
+const CREATE_VOTER = gql`
+    mutation CreateVoter($token: String!, $email: String!) {
+    createVoter(token: $token, email: $email) {
+        voter{
+            email
+        }
+    }
+    }
 `;
 
 export {
@@ -65,5 +76,6 @@ export {
     VERIFY_TOKEN,
     CREATE_POLL,
     CREATE_VOTE,
-    VERIFY_EMAIL
+    VERIFY_EMAIL,
+    CREATE_VOTER
 }

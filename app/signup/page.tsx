@@ -64,12 +64,13 @@ export default function Signup() {
       localStorage.setItem('name', name);
       processLogin({ email: data_.email, password})
     });
-    setIsLoading(false);
+    
   }
 
   const processLogin = async (data: any) => {
     console.log('data', data);
     login(data).then(result => {
+      setIsLoading(false);
       if (result.error) {
         console.error('Oh no!', result.error);
       }

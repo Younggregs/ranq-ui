@@ -19,7 +19,7 @@ import { uiUrl } from "../lib/constants";
 
 export default function LinkCard({type, id}: {type: string, id: string}) {
     const [copied, setCopied] = React.useState(false);   
-    const link = `${uiUrl}/rank?id=${id}`
+    const link = `${uiUrl}/vote?id=${id}`
 
     const copyLink = () => {
         setCopied(true);
@@ -35,7 +35,7 @@ export default function LinkCard({type, id}: {type: string, id: string}) {
         sx={{ m: 2, width: cardWidth }}
         style={styles.card}
    >
-       {type === 'private' ? (
+       {type.toLowerCase() === 'private' ? (
            <div>
                <h4>Links Sent!</h4>
                <p>Voting links have been sent to each voter email</p>

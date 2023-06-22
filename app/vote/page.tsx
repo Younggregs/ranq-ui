@@ -19,26 +19,28 @@ import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
 import { useMutation, cacheExchange, fetchExchange } from "urql";
-import { VERIFY_EMAIL, SIGNUP } from "../utils/mutations";
+import { CREATE_VOTER } from "../utils/mutations";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Signup() {
+export default function Vote() {
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailSent, setEmailSent] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const searchParams = useSearchParams()
+  const token = searchParams?.get('id')
+  console.log('id', token)
 
-
-  const [verifyEmailResult, verifyEmail] = useMutation(VERIFY_EMAIL);
+  const [verifyEmailResult, verifyEmail] = useMutation(CREATE_VOTER);
 
   const submit = async () => {
     console.log("submit");
     setIsLoading(true);
     const data = {
+      token,
       email,
-      type: "signup_email",
     };
     verifyEmail(data).then((result) => {
       setIsLoading(false);
@@ -76,11 +78,11 @@ export default function Signup() {
               sx={{m:2, width: cardWidth}}
             >
               <h2>
-                  Email Sent!
+                  Voting Link Sent!
               </h2>
               <p>
-                  Verification email sent. <br />
-                  Check your email for a link to continue.
+                  Voting link sent to your email inbox. <br />
+                  Check your email for a link to send your vote.
               </p>
           </Grid>
 
@@ -116,9 +118,6 @@ export default function Signup() {
                   Continue
                 </Button>
               )}
-            </Grid>
-            <Grid>
-              <Link href="/login">Login</Link>
             </Grid>
           </Grid>
           )}

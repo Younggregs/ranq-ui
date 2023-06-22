@@ -47,14 +47,15 @@ export default function Preview() {
         }
         
         createPoll(data).then(result => {
+          setIsLoading(false);
             if (result.error) {
               console.error('Oh no!', result.error);
             }
             console.log('result', result);
-            router.push(`/poll?id=${result.data.createPoll.poll.id}`)
+            router.push(`/poll?id=${result.data.createPoll.poll.token}`)
           });
         
-        setIsLoading(false);
+        
     }
 
   return (

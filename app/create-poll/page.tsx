@@ -38,7 +38,7 @@ export default function CreatePoll() {
 
     switch (type) {
         case 'days':
-            if (parseInt(input) <= 7) {
+            if (parseInt(input) <= 6) {
                 return true
             }   
             return false
@@ -143,7 +143,7 @@ export default function CreatePoll() {
                     variant="filled" 
                     type="number"
                     value={days}
-                    InputProps={{ inputProps: { min: 0, max: 7 } }}
+                    InputProps={{ inputProps: { min: 0, max: 6 } }}
                     onChange={(e) => checkValidity(e.target.value, 'days') && setDays(e.target.value)}
                 />
 

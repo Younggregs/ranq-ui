@@ -44,13 +44,17 @@ export default function Login() {
         password
     }
     login(data).then(result => {
+      setIsLoading(false);
       if (result.error) {
         console.error('Oh no!', result.error);
       }
-      localStorage.setItem('token', result.data.tokenAuth.token);
-      router.push('/')
+      if (result.data) {
+        localStorage.setItem('token', result.data.tokenAuth.token);
+        router.push('/')
+      }
+      
     });
-    setIsLoading(false);
+    
   }
 
   const mute = () => {

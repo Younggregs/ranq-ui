@@ -19,7 +19,8 @@ const FETCH_POLL_BY_ID = gql`
         voters,
         duration,
         type,
-        status
+        status, 
+        token
       }
     }
 `;
@@ -34,7 +35,8 @@ const FETCH_POLLS = gql`
       voters,
       duration,
       type,
-      status
+      status, 
+      token
     }
   }
 `;
@@ -47,9 +49,25 @@ const VERIFY_EMAIL_TOKEN = gql`
   }
 `;
 
+const FETCH_RANK_POLL = gql`
+  query FetchRankPoll($token: String) {
+      fetchRankPoll(token: $token) {
+          id,
+          title,
+          description,
+          contestants,
+          voters,
+          duration,
+          type,
+          status
+      }
+    }
+`;
+
 export {
     FETCH_USERS,
     FETCH_POLL_BY_ID,
     FETCH_POLLS, 
-    VERIFY_EMAIL_TOKEN
+    VERIFY_EMAIL_TOKEN,
+    FETCH_RANK_POLL
 }

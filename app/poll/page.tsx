@@ -21,25 +21,6 @@ import ResultCard from "../components/result-card";
 import { useQuery, cacheExchange, fetchExchange, } from 'urql';
 import { FETCH_POLL_BY_ID }from "../utils/queries";
 
-  const data1 = {
-    title: "Best Musician 2023",
-    description: "Rate by trend, quality, lyrics, rhythm and dept",
-    contestants: [
-        "Davido",
-        "Asake",
-        "Seyi Vibes",
-        "Young Jonn",
-        "Wande Coal"
-    ],
-    type: "private",
-    voters: [
-        "dretzam@gmail.com",
-        "ret@red.com",
-        "doll@gmail.com",
-        "drape@gmail.com"
-    ],
-    duration: "1:15:15"
-}
 export default function Poll() {   
     const [pollStatus, setPollStatus] = React.useState('completed');
     const [timeLeft, setTimeLeft] = React.useState(timeRemaining());
@@ -103,7 +84,7 @@ export default function Poll() {
             <FormHeader header="Your Poll" />
         </Grid>
         {data?.pollById.status.toLowerCase() === 'ongoing' ? (
-            <LinkCard type={data?.pollById.type} id={data?.pollById.id} />
+            <LinkCard type={data?.pollById.type} id={data?.pollById.token} />
         ): (
             <ResultCard />
         )}

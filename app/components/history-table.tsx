@@ -68,7 +68,7 @@ export default function HistoryTable({data}: {data: any}) {
               <StyledTableCell>{row?.votes}</StyledTableCell>
               <StyledTableCell>{row?.status}</StyledTableCell>
               <StyledTableCell>
-                <Link href={`/poll?id=${row?.id}`}>
+                <Link href={`/poll?id=${row?.token}`}>
                     <ArrowOutward />
                 </Link>  
                </StyledTableCell>

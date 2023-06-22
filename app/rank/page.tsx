@@ -15,7 +15,7 @@ import { cardWidth } from "../lib/constants";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useQuery, useMutation,  cacheExchange, fetchExchange, } from 'urql';
 import { useRouter, useSearchParams } from 'next/navigation'
-import { FETCH_POLL_BY_ID }from "../utils/queries";
+import { FETCH_RANK_POLL }from "../utils/queries";
 import { CREATE_VOTE }from "../utils/mutations";
 
   const data = {
@@ -45,19 +45,19 @@ export default function Rank() {
     const [ranked, setRanked] = React.useState([]);
     const [voted, setVoted] = React.useState(false);
     const searchParams = useSearchParams()
-    const id = searchParams?.get('id')
-    console.log('id', id)
+    const token = searchParams?.get('token')
+    console.log('id', token)
 
-    const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
+    const [res] = useQuery({query: FETCH_RANK_POLL, variables: {token}});
 
     const { data, fetching, error } = res;
     console.log('data', data)
     React.useEffect(() => {
-        if (data?.pollById?.contestants)
-          setRanked(data?.pollById.contestants);
+        if (data?.fetchRankPoll?.contestants)
+          setRanked(data?.fetchRankPoll.contestants);
     }, [data]);
 
-        // Function to update list on drop
+    // Function to update list on drop
     const handleDrop = (droppedItem: any) => {
       // Ignore drop outside droppable container
       if (!droppedItem.destination) return;
@@ -72,11 +72,12 @@ export default function Rank() {
 
     const submit = () => {
       setIsLoading(true);
-      const data = {
-        id,
+      const data_ = {
+        id: data?.fetchRankPoll.id,
         ranked,
       }
-      createVote(data).then(result => {
+      createVote(data_).then(result => {
+        setIsLoading(false);
         if (result.error) {
           console.error('Oh no!', result.error);
         }
@@ -84,7 +85,6 @@ export default function Rank() {
         setVoted(true);
       });
       
-      setIsLoading(false);
     }
 
   return (
@@ -131,8 +131,8 @@ export default function Rank() {
               sx={{ m: 2, width: cardWidth }}
               style={styles.card}
           >
-              <h4>{data?.pollById.title}</h4>
-              {data?.pollById.description}
+              <h4>{data?.fetchRankPoll.title}</h4>
+              {data?.fetchRankPoll.description}
           </Grid>
           <Grid
               container
@@ -141,7 +141,7 @@ export default function Rank() {
               style={styles.card}
           >
               <h4>
-                Vote Below! Contestants ({data?.pollById.contestants.length})
+                Vote Below! Contestants ({data?.fetchRankPoll.contestants.length})
               </h4>
               <p>Drag and drop contestants from highest to lowest</p>
           </Grid>
