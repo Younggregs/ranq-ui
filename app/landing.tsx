@@ -39,7 +39,7 @@ export default function Landing() {
               </h2>
           </Grid>
         </Link>
-        <Link href="/signup">
+        <Link href="/verify-email">
           <Grid
             container
             direction="column"

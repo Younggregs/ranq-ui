@@ -49,10 +49,21 @@ const CREATE_VOTE = gql`
     }
 `;
 
+const VERIFY_EMAIL = gql`
+ mutation EmailVerification($email: String!, $type: String!) {
+  emailVerification(email: $email, type: $type) {
+    emailToken{
+        email
+    }
+  }
+ }
+`;
+
 export {
     SIGNUP,
     LOGIN,
     VERIFY_TOKEN,
     CREATE_POLL,
-    CREATE_VOTE
+    CREATE_VOTE,
+    VERIFY_EMAIL
 }

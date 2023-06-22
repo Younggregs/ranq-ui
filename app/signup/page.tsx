@@ -18,9 +18,10 @@ import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
-import { useMutation, cacheExchange, fetchExchange, } from 'urql';
+import { useMutation, useQuery, fetchExchange, } from 'urql';
 import { LOGIN, SIGNUP }from "../utils/mutations";
 import { useRouter, useSearchParams } from 'next/navigation'
+import { VERIFY_EMAIL_TOKEN } from "../utils/queries";
 
 export default function Signup() {
   const router = useRouter()
@@ -35,6 +36,14 @@ export default function Signup() {
   ) => {
     event.preventDefault();
   };
+  const searchParams = useSearchParams()
+
+  const token = searchParams?.get('token')
+  console.log('token', token)
+
+  const [res] = useQuery({query: VERIFY_EMAIL_TOKEN, variables: {token, type: 'signup_email'}});
+
+  const { data, fetching, error } = res;
 
   const [signupResult, signup] = useMutation(SIGNUP);
   const [loginResult, login] = useMutation(LOGIN);
@@ -42,18 +51,18 @@ export default function Signup() {
   const submit = async () => {
     console.log("submit");
     setIsLoading(true);
-    const data = {
+    const data_ = {
         name,
-        email,
+        email: data?.verifyEmailToken.email,
         password
     }
-    signup(data).then(result => {
+    signup(data_).then(result => {
       if (result.error) {
         console.error('Oh no!', result.error);
       }
       console.log('result', result);
       localStorage.setItem('name', name);
-      processLogin({ email, password})
+      processLogin({ email: data_.email, password})
     });
     setIsLoading(false);
   }
@@ -70,7 +79,7 @@ export default function Signup() {
   }
 
   const mute = () => {
-    return name && email && password
+    return name && password
   }
 
   return (
@@ -87,63 +96,78 @@ export default function Signup() {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-        <Grid>
-            <FormHeader header="Signup" />
-        </Grid>
-        <TextField 
-            sx={{ m: 1, width: cardWidth }} 
-            id="name" 
-            label="Name" 
-            variant="filled" 
-            onChange={(e) => setName(e.target.value)}
-        />
-        <TextField 
-            sx={{ m: 1, width: cardWidth }} 
-            id="email" 
-            label="Email" 
-            variant="filled" 
-            onChange={(e) => setEmail(e.target.value)}
-        />
-        <FormControl sx={{ m: 1, width: cardWidth }} variant="filled">
-          <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-          <FilledInput
-            id="password"
-            type={showPassword ? "text" : "password"}
-            onChange={(e) => setPassword(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ m: 1, width: cardWidth }} 
-            >
-        {isLoading ? (
+
+        {fetching ? (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid>
+              <h2>Verifying Token...</h2>
+            </Grid>
             <ActivityIndicator />
+          </Grid>
         ): (
-        <Button 
-            sx={{ m: 2, width: "30ch" }} 
-            variant="contained"
-            onClick={submit}
-            disabled={!mute()}
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
         >
-            Continue
-        </Button>
-        )}
+          <Grid>
+              <FormHeader header="Signup" />
+          </Grid>
+          <TextField 
+              sx={{ m: 1, width: cardWidth }} 
+              id="name" 
+              label="Name" 
+              variant="filled" 
+              onChange={(e) => setName(e.target.value)}
+          />
+          <FormControl sx={{ m: 1, width: cardWidth }} variant="filled">
+            <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+            <FilledInput
+              id="password"
+              type={showPassword ? "text" : "password"}
+              onChange={(e) => setPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ m: 1, width: cardWidth }} 
+              >
+          {isLoading ? (
+              <ActivityIndicator />
+          ): (
+          <Button 
+              sx={{ m: 2, width: "30ch" }} 
+              variant="contained"
+              onClick={submit}
+              disabled={!mute()}
+          >
+              Continue
+          </Button>
+          )}
+          </Grid>
         </Grid>
+        )}
         <Grid>
             <Link href="/login">
                 Login

@@ -87,7 +87,7 @@ export default function ForgotPassword() {
                 </Link>
             </div>
             <div>
-                <Link href="/signup">
+                <Link href="/verify-email">
                     Signup
                 </Link>
             </div>

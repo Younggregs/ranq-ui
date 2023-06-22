@@ -39,8 +39,17 @@ const FETCH_POLLS = gql`
   }
 `;
 
+const VERIFY_EMAIL_TOKEN = gql`
+  query VerifyEmailToken($token: String, $type: String!) {
+    verifyEmailToken(token: $token, type: $type) {
+        email
+    }
+  }
+`;
+
 export {
     FETCH_USERS,
     FETCH_POLL_BY_ID,
-    FETCH_POLLS
+    FETCH_POLLS, 
+    VERIFY_EMAIL_TOKEN
 }

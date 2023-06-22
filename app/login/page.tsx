@@ -134,7 +134,7 @@ export default function Login() {
                 </Link>
             </div>
             <div>
-                <Link href="/signup">
+                <Link href="/verify-email">
                     Signup
                 </Link>
             </div>
