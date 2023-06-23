@@ -31,12 +31,10 @@ export default function Vote() {
   const [isLoading, setIsLoading] = React.useState(false);
   const searchParams = useSearchParams()
   const token = searchParams?.get('id')
-  console.log('id', token)
 
   const [verifyEmailResult, verifyEmail] = useMutation(CREATE_VOTER);
 
   const submit = async () => {
-    console.log("submit");
     setIsLoading(true);
     const data = {
       token,
@@ -47,7 +45,6 @@ export default function Vote() {
       if (result.error) {
         console.error("Oh no!", result.error);
       }
-      console.log("result", result);
       setEmailSent(true);
     });
     

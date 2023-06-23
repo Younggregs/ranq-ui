@@ -21,12 +21,10 @@ import { FETCH_POLL_BY_ID }from "../utils/queries";
 export default function Result() {   
     const searchParams = useSearchParams()
     const id = searchParams?.get('token')
-    console.log('id', id)
 
     const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
 
     const { data, fetching, error } = res;
-    console.log('data', data)
 
   return (
     <main className={stylesMain.main}>
