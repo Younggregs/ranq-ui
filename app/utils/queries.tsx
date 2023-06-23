@@ -64,10 +64,21 @@ const FETCH_RANK_POLL = gql`
     }
 `;
 
+
+const POLL_RESULT = gql`
+  query PollResult($token: String) {
+      pollResult(token: $token) {
+          id,
+          popularVote
+      }
+    }
+`;
+
 export {
     FETCH_USERS,
     FETCH_POLL_BY_ID,
     FETCH_POLLS, 
     VERIFY_EMAIL_TOKEN,
-    FETCH_RANK_POLL
+    FETCH_RANK_POLL,
+    POLL_RESULT
 }

@@ -3,67 +3,43 @@ import * as React from "react";
 import stylesMain from "../page.module.css";
 import {
   Grid,
-  Button,
-  Select,
-  MenuItem,
-  Typography,
   List,
   ListItemIcon,
   ListItem,
   ListItemText,
 } from "../lib/mui";
 import { Folder, ContactPage, VisibilityOff, HowToVote } from "../lib/mui-icon";
-import Link from 'next/link'
 import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { cardWidth } from "../lib/constants";
-import { useMutation, cacheExchange, fetchExchange, } from 'urql';
-import { CREATE_POLL }from "../utils/mutations";
+import ResultCard from "../components/result-card";
+import { useQuery } from 'urql';
+import { FETCH_POLL_BY_ID }from "../utils/queries";
 
-export default function Preview() {
-    const [createPollResult, createPoll] = useMutation(CREATE_POLL);
+export default function Result() {   
     const searchParams = useSearchParams()
-    const router = useRouter()
-    const [isLoading, setIsLoading] = React.useState(false);
+    const id = searchParams?.get('token')
+    console.log('id', id)
 
-    const title = searchParams?.get('title')
-    const description = searchParams?.get('description')
-    const contestants = searchParams?.get('contestants')?.split(',').map((c) => c.trim())
-    const type = searchParams?.get('type')
-    const voters = searchParams?.get('voters')?.split(',').map((c) => c.trim())
-    const duration = searchParams?.get('duration')
-    const durationS = searchParams?.get('durationS')
+    const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
 
-    const submit = () => {
-        setIsLoading(true);
-        
-        const data = {
-            title,
-            description,
-            contestants,
-            type,
-            voters,
-            duration,
-            durationS: parseInt(durationS || '600'),
-        }
-        
-        createPoll(data).then(result => {
-          setIsLoading(false);
-            if (result.error) {
-              console.error('Oh no!', result.error);
-            }
-            console.log('result', result);
-            router.push(`/poll?id=${result.data.createPoll.poll.token}`)
-          });
-        
-        
-    }
+    const { data, fetching, error } = res;
+    console.log('data', data)
 
   return (
     <main className={stylesMain.main}>
       <Title />
+
+      {fetching ? (
+          <Grid
+            justifyContent="center"
+            alignItems="center"
+          >
+            <ActivityIndicator />
+          </Grid>
+      ): (
 
       <Grid
         justifyContent="center"
@@ -76,7 +52,17 @@ export default function Preview() {
           alignItems="flex-start"
         >
         <Grid>
-            <FormHeader header="Preview" />
+            <FormHeader header="Your Poll" />
+        </Grid>
+        <ResultCard token={id || ""}/>    
+        <Grid
+             container
+             direction="column"
+             sx={{ m: 2, width: cardWidth }}
+             style={styles.card}
+        >
+            <h4>Votes Recorded</h4>
+            <p>{10}</p>
         </Grid>
         <Grid
              container
@@ -84,8 +70,8 @@ export default function Preview() {
              sx={{ m: 2, width: cardWidth }}
              style={styles.card}
         >
-            <h4>Title</h4>
-            {title}
+            <h4>{data?.pollById.title}</h4>
+            {data?.pollById.description}
         </Grid>
         <Grid
              container
@@ -93,18 +79,9 @@ export default function Preview() {
              sx={{ m: 2, width: cardWidth }}
              style={styles.card}
         >
-            <h4>Description</h4>
-            {description}
-        </Grid>
-        <Grid
-             container
-             direction="column"
-             sx={{ m: 2, width: cardWidth }}
-             style={styles.card}
-        >
-            <h4>Contestants ({contestants?.length})</h4>
+            <h4>Contestants ({data?.pollById.contestants?.length})</h4>
             <List>
-                {contestants?.map((c) => ( 
+                {data?.pollById.contestants?.map((c: any) => ( 
                     <ListItem key={c}>
                         <ListItemIcon>
                             <ContactPage />
@@ -123,18 +100,18 @@ export default function Preview() {
              style={styles.card}
         >
             <h4>Poll Type</h4>
-            {type?.toUpperCase()}
+            {data?.pollById.type?.toUpperCase()}
         </Grid>
-        {searchParams?.get('type') === 'private' && (
+        {data?.pollById.type.toLowerCase() === 'private' && (
             <Grid
                     container
                     direction="column"
                     sx={{ m: 2, width: cardWidth }}
                     style={styles.card}
             >
-                <h4>Voters ({voters?.length})</h4>
+                <h4>Voters ({data?.pollById.voters?.length})</h4>
                 <List>
-                    {voters?.map((c) => ( 
+                    {data?.pollById.voters?.map((c: any) => ( 
                         <ListItem key={c}>
                             <ListItemIcon>
                                 <HowToVote />
@@ -154,36 +131,18 @@ export default function Preview() {
              style={styles.card}
         >
             <h4>Duration</h4>
-            {duration?.toUpperCase()}
+            <p>{data?.pollById.duration}</p>
         </Grid>
-        <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ m: 1, width: cardWidth }} 
-            >
-        {isLoading ? (
-            <ActivityIndicator />
-        ): (
-        <Button 
-            sx={{ m: 2, width: cardWidth }} 
-            variant="contained"
-            onClick={submit}
-        >
-            Create Poll
-        </Button>
-        )}
-       </Grid>
       </Grid>
       </Grid>
+      )}
+
       <div>
         <p>Terms and Conditions apply</p>
       </div>
     </main>
   );
 }
-
 
 
 const styles = {
@@ -194,5 +153,12 @@ const styles = {
     padding: "1rem",
     border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
     borderRadius: "var(--border-radius)",
-  }
+  },
+ linkCard: {
+    border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
+    marginTop: 5,
+ }, 
+ linkField: {
+    padding: 2,
+ }
 };

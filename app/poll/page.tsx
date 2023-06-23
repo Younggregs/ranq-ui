@@ -86,7 +86,7 @@ export default function Poll() {
         {data?.pollById.status.toLowerCase() === 'ongoing' ? (
             <LinkCard type={data?.pollById.type} id={data?.pollById.token} />
         ): (
-            <ResultCard />
+            <ResultCard token={data?.pollById.token || ""}/>
         )}
         
         <Grid

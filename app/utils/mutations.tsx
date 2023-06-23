@@ -29,8 +29,8 @@ const VERIFY_TOKEN = gql`
 `;
 
 const CREATE_POLL = gql`
-    mutation CreatePoll($title: String!, $description: String!, $contestants: [String!], $voters: [String!], $duration: String!, $type: String!) {
-        createPoll(title: $title, description: $description, contestants: $contestants, voters: $voters, duration: $duration, type: $type) {
+    mutation CreatePoll($title: String!, $description: String!, $contestants: [String!], $voters: [String!], $duration: String!, $durationS: Int!, $type: String!) {
+        createPoll(title: $title, description: $description, contestants: $contestants, voters: $voters, duration: $duration, durationS: $durationS, type: $type) {
             poll{
                 id,
                 title,

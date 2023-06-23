@@ -73,7 +73,7 @@ export default function Rank() {
     const submit = () => {
       setIsLoading(true);
       const data_ = {
-        id: data?.fetchRankPoll.id,
+        id: token,
         ranked,
       }
       createVote(data_).then(result => {

@@ -60,6 +60,15 @@ export default function CreatePoll() {
     }
   }
 
+  const calculateDurationInSeconds = () => {
+    const daysInSeconds = parseInt(days) * 24 * 60 * 60
+    const hInSeconds = parseInt(h) * 60 * 60
+    const mInSeconds = parseInt(m) * 60
+    const sInSeconds = parseInt(s)
+
+    return daysInSeconds + hInSeconds + mInSeconds + sInSeconds
+    }
+
   return (
     <main className={stylesMain.main}>
       <Title />
@@ -191,6 +200,7 @@ export default function CreatePoll() {
                     type,
                     voters,
                     duration: `${days}:${h}:${m}:${s}`,
+                    durationS: calculateDurationInSeconds()
                 }
             }}
         >

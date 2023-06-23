@@ -22,7 +22,8 @@ const rows = [
   createData('Gingerbread', 356, 16.0),
 ];
 
-export default function ResultTable() {
+export default function ResultTable({data}: {data: any}) {
+    console.log('data 3', data)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -34,16 +35,16 @@ export default function ResultTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row: any) => (
             <TableRow
               key={row.contestants}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.contestants}
+                {row.name}
               </TableCell>
               <TableCell>{row.position}</TableCell>
-              <TableCell>{row.points}</TableCell>
+              <TableCell>{row.vote_count}</TableCell>
             </TableRow>
           ))}
         </TableBody>
