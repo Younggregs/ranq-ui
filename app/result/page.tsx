@@ -25,6 +25,7 @@ export default function Result() {
     const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
 
     const { data, fetching, error } = res;
+    console.log('data', data)
 
   return (
     <main className={stylesMain.main}>
@@ -52,7 +53,7 @@ export default function Result() {
         <Grid>
             <FormHeader header="Your Poll" />
         </Grid>
-        <ResultCard token={id || ""}/>    
+        <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>    
         <Grid
              container
              direction="column"
@@ -60,7 +61,7 @@ export default function Result() {
              style={styles.card}
         >
             <h4>Votes Recorded</h4>
-            <p>{10}</p>
+            <p>{data?.pollById.votes}</p>
         </Grid>
         <Grid
              container

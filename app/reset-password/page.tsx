@@ -16,13 +16,22 @@ import { Visibility, VisibilityOff } from "../lib/mui-icon";
 import Link from 'next/link'
 import Title from "../components/title";
 import FormHeader from "../components/form-header";
+import FormError from "../components/form-error"
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
+import { useMutation, useQuery, fetchExchange, } from 'urql';
+import { LOGIN, SIGNUP }from "../utils/mutations";
+import { useRouter, useSearchParams } from 'next/navigation'
+import { VERIFY_EMAIL_TOKEN } from "../utils/queries";
+import { RESET_PASSWORD }from "../utils/mutations";
+
 
 export default function ResetPassword() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [errors, setErrors] = React.useState('')
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -30,14 +39,41 @@ export default function ResetPassword() {
     event.preventDefault();
   };
 
+  const searchParams = useSearchParams()
+
+  const token = searchParams?.get('token')
+  console.log('token', token)
+
+  const [res] = useQuery({query: VERIFY_EMAIL_TOKEN, variables: {token, type: 'forgot_password_email'}});
+
+  const { data, fetching, error } = res;
+  console.log('data: ', data, error)
+
+  const [resetPasswordResult, resetPassword] = useMutation(RESET_PASSWORD);
+
   const submit = () => {
     console.log("submit");
     setIsLoading(true);
+    setErrors('')
     const data = {
         password,
+        token
     }
-    console.log('data', data)
-    setIsLoading(false);
+    
+    resetPassword(data).then(result => {
+      setIsLoading(false);
+      const res = result?.data?.resetPassword as any
+      if (result.error) {
+        console.error('Oh no!', result.error);
+      }else if(!res?.success){
+        setErrors(res?.errors.message)
+      }
+      else{
+        router.push('/login')
+      }
+    });
+   
+    
   }
 
   const mute = () => {
@@ -53,6 +89,40 @@ export default function ResetPassword() {
         alignItems="center"
       >
          <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+
+          {fetching && (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid>
+              <h2>Verifying Token...</h2>
+            </Grid>
+            <ActivityIndicator />
+          </Grid>
+          )}
+
+          {!fetching && !data.verifyEmailToken && (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+              <h2>Something went wrong.</h2>
+              <p>- Invalid link</p>
+          </Grid>
+        )}
+
+        {!fetching && data.verifyEmailToken && (
+        <Grid
           container
           direction="column"
           justifyContent="flex-start"
@@ -81,16 +151,20 @@ export default function ResetPassword() {
             }
           />
         </FormControl>
+        {errors !== '' && (
+          <FormError message={errors} />
+        )}
         <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ m: 1, width: cardWidth }} 
-            >
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ m: 1, width: cardWidth }} 
+        >
         {isLoading ? (
             <ActivityIndicator />
         ): (
+
         <Button 
             sx={{ m: 2, width: "30ch" }} 
             variant="contained"
@@ -101,6 +175,9 @@ export default function ResetPassword() {
         </Button>
         )}
         </Grid>
+      </Grid>
+      
+      )}
       </Grid>
       </Grid>
       <div>

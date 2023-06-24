@@ -3,6 +3,10 @@ import { gql } from 'urql';
 const SIGNUP = gql`
    mutation Signup($name: String!, $email: String!, $password: String!) {
     signup(name: $name, email: $email, password: $password) {
+        success,
+        errors{
+            message
+        },
         user {
             id
         }
@@ -70,6 +74,20 @@ const CREATE_VOTER = gql`
     }
 `;
 
+const RESET_PASSWORD = gql`
+    mutation ResetPassword($token: String!, $password: String!) {
+        resetPassword(token: $token, password: $password) {
+            success,
+            errors{
+                message
+            },
+            user{
+                email
+            }
+        }
+    }
+`;
+
 export {
     SIGNUP,
     LOGIN,
@@ -77,5 +95,6 @@ export {
     CREATE_POLL,
     CREATE_VOTE,
     VERIFY_EMAIL,
-    CREATE_VOTER
+    CREATE_VOTER,
+    RESET_PASSWORD
 }

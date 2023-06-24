@@ -26,7 +26,7 @@ export default function Index() {
           alignItems="flex-start"
           sx={{ m: 2, width: cardWidth }}
         >
-            <p>Hello Retzam,</p>
+            <p>Hello {localStorage.getItem('name') || ""},</p>
         </Grid>
         <Link href="/create-poll">
           <Grid

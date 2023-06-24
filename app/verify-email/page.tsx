@@ -19,17 +19,12 @@ import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
 import { useMutation, cacheExchange, fetchExchange } from "urql";
-import { VERIFY_EMAIL, SIGNUP } from "../utils/mutations";
-import { useRouter, useSearchParams } from "next/navigation";
+import { VERIFY_EMAIL } from "../utils/mutations";
 
 export default function Signup() {
-  const router = useRouter();
-  const [showPassword, setShowPassword] = React.useState(false);
   const [emailSent, setEmailSent] = React.useState(false);
   const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-
 
   const [verifyEmailResult, verifyEmail] = useMutation(VERIFY_EMAIL);
 

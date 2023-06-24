@@ -16,6 +16,7 @@ import { Visibility, VisibilityOff } from "../lib/mui-icon";
 import Link from 'next/link'
 import Title from "../components/title";
 import FormHeader from "../components/form-header";
+import FormError from "../components/form-error"
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
 import { useMutation, useQuery, fetchExchange, } from 'urql';
@@ -27,7 +28,7 @@ export default function Signup() {
   const router = useRouter()
   const [showPassword, setShowPassword] = React.useState(false);
   const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [errors, setErrors] = React.useState('')
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -57,12 +58,17 @@ export default function Signup() {
         password
     }
     signup(data_).then(result => {
+      const res = result?.data?.signup as any
       if (result.error) {
         console.error('Oh no!', result.error);
+      }else if(!res?.success){
+        setErrors(res?.errors.message)
       }
-      console.log('result', result);
-      localStorage.setItem('name', name);
-      processLogin({ email: data_.email, password})
+      else{
+        console.log('result', result);
+        localStorage.setItem('name', name);
+        processLogin({ email: data_.email, password})
+      }
     });
     
   }
@@ -98,7 +104,7 @@ export default function Signup() {
           alignItems="flex-start"
         >
 
-        {fetching ? (
+        {fetching && (
           <Grid
             container
             direction="column"
@@ -110,7 +116,21 @@ export default function Signup() {
             </Grid>
             <ActivityIndicator />
           </Grid>
-        ): (
+          )}
+
+          {!fetching && !data.verifyEmailToken && (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+              <h2>Something went wrong.</h2>
+              <p>- Invalid link</p>
+          </Grid>
+        )}
+
+        {!fetching && data.verifyEmailToken && (
         <Grid
           container
           direction="column"
@@ -147,6 +167,9 @@ export default function Signup() {
               }
             />
           </FormControl>
+          {errors !== '' && (
+            <FormError message={errors} />
+          )}
           <Grid
                   container
                   direction="column"

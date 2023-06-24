@@ -1,12 +1,12 @@
 const cardWidth = "30ch"
 
 // dev
-// const url = "http://localhost:8000/graphql"
-// const uiUrl = "http://localhost:3000"
+const url = "http://localhost:8000/graphql"
+const uiUrl = "http://localhost:3000"
 
 // prod
-const url = "https://api.ieuautomation.online/graphql"
-const uiUrl = "http://ranq-ui.vercel.app"
+// const url = "https://api.ieuautomation.online/graphql"
+// const uiUrl = "http://ranq-ui.vercel.app"
 
 export {
     cardWidth,

@@ -21,6 +21,7 @@ import { cardWidth } from "../lib/constants";
 import { useMutation } from 'urql';
 import { LOGIN }from "../utils/mutations";
 import { useRouter } from 'next/navigation'
+import FormError from "../components/form-error";
 
 export default function Login() {
   const router = useRouter()
@@ -28,6 +29,7 @@ export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [errors, setErrors] = React.useState('')
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -45,13 +47,17 @@ export default function Login() {
     }
     login(data).then(result => {
       setIsLoading(false);
+      setErrors('')
+      console.log('result', result)
       if (result.error) {
-        console.error('Oh no!', result.error);
-      }
-      if (result.data) {
-        localStorage.setItem('token', result.data.tokenAuth.token);
-        router.push('/')
-      }
+        setErrors("Invalid login details")
+      }else{
+        if (result.data) {
+          localStorage.setItem('token', result.data.tokenAuth.token);
+          router.push('/')
+        }
+    }
+      
       
     });
     
@@ -105,6 +111,9 @@ export default function Login() {
             }
           />
         </FormControl>
+        {errors !== '' && (
+          <FormError message={errors} />
+        )}
         <Grid
             container
             direction="column"

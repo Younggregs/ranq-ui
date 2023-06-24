@@ -2,19 +2,10 @@
 import * as React from "react";
 import { cardWidth } from "../lib/constants";
 import { FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "../lib/mui";
-import copy from "copy-to-clipboard";
 import ResultTable from "./result-table";
-import { POLL_RESULT }from "../utils/queries";
-import { useQuery } from 'urql';
 
-export default function Result({token}: {token: string}) { 
+export default function Result({data}: {data: any}) { 
     const [type, setType] = React.useState('');
-    const [res] = useQuery({query: POLL_RESULT, variables: {token}});
-    const { data, fetching, error } = res;
-    console.log('data', data)
-    if(data !== undefined && data?.pollResult?.popularVote !== undefined){
-        console.log('data stringified', JSON.parse(data?.pollResult?.popularVote || '[]'))
-    }
 
     return (
         <Grid
@@ -39,11 +30,7 @@ export default function Result({token}: {token: string}) {
                     <MenuItem value={'popularVote'}>Popular Vote</MenuItem>
                 </Select>
             </FormControl>
-            {!fetching && (
-                <ResultTable 
-                    data={JSON.parse(data?.pollResult[type] || '[]')}
-                />
-            )}
+            <ResultTable data={JSON.parse(data[type] || '[]')} />
         </Grid>
     )
 

@@ -86,7 +86,7 @@ export default function Poll() {
         {data?.pollById.status.toLowerCase() === 'ongoing' ? (
             <LinkCard type={data?.pollById.type} id={data?.pollById.token} />
         ): (
-            <ResultCard token={data?.pollById.token || ""}/>
+            <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>
         )}
         
         <Grid
@@ -96,7 +96,7 @@ export default function Poll() {
              style={styles.card}
         >
             <h4>Votes Recorded</h4>
-            <p>{10}</p>
+            <p>{data?.pollById.votes}</p>
         </Grid>
         <Grid
              container

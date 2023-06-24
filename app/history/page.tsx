@@ -16,8 +16,6 @@ import { useQuery, cacheExchange, fetchExchange, } from 'urql';
 import { FETCH_POLLS } from "../utils/queries";
 
 export default function History() {   
-    const [pollStatus, setPollStatus] = React.useState('ongoing');
-    const [isLoading, setIsLoading] = React.useState(false);
     const [res] = useQuery({query: FETCH_POLLS});
     const { data, fetching, error } = res;
     console.log('data', data)

@@ -20,7 +20,12 @@ const FETCH_POLL_BY_ID = gql`
         duration,
         type,
         status, 
-        token
+        token,
+        votes,
+        resultSet{
+            id,
+            popularVote
+        },
       }
     }
 `;
@@ -30,13 +35,10 @@ const FETCH_POLLS = gql`
     polls{
       id,
       title,
-      description,
-      contestants,
-      voters,
-      duration,
       type,
       status, 
-      token
+      token,
+      votes,
     }
   }
 `;
