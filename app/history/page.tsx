@@ -28,9 +28,11 @@ export default function History() {
         <Grid>
             <FormHeader header={`History (${data?.polls.length || 0})`} />
         </Grid>
-        {fetching ? (
+        {fetching && (
           <ActivityIndicator />
-          ): (
+        )}
+
+        {!fetching && data && (
           <Grid
             container
             direction="column"
@@ -38,6 +40,18 @@ export default function History() {
             style={styles.card}
           >
             <HistoryTable data={data?.polls || []}/>
+          </Grid>
+        )}
+
+        {!fetching && !data && (
+          <Grid
+            container
+            direction="column"
+            sx={{ m: 2, width: "40ch" }}
+            style={styles.card}
+          >
+            <h2>Its empty here</h2>
+            <p>You have not created any polls yet</p>
           </Grid>
         )}
         
