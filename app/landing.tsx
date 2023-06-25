@@ -25,7 +25,7 @@ export default function Landing() {
         alignItems="flex-start"
         sx={{ m: 2, width: cardWidth }}
       >
-        <Link href="/login">
+        <Link href="/signin">
           <Grid
             container
             direction="column"
@@ -35,21 +35,7 @@ export default function Landing() {
             style={styles.card}
           >
               <h2>
-                  Login
-              </h2>
-          </Grid>
-        </Link>
-        <Link href="/verify-email">
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ m: 2, width: cardWidth }}
-            style={styles.card}
-          >
-              <h2>
-                  Signup
+                  Signin
               </h2>
           </Grid>
         </Link>

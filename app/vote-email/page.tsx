@@ -78,13 +78,8 @@ export default function VoteEmail() {
             sx={{ m: 1, width: cardWidth }} 
         >
             <div>
-                <Link href="/Login">
-                    Login
-                </Link>
-            </div>
-            <div>
-                <Link href="/signup">
-                    Signup
+                <Link href="/signin">
+                    Sigin
                 </Link>
             </div>
         </Grid>

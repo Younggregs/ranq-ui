@@ -26,17 +26,17 @@ import { VERIFY_EMAIL_TOKEN } from "../utils/queries";
 
 export default function Signup() {
   const router = useRouter()
-  const [showPassword, setShowPassword] = React.useState(false);
+  // const [showPassword, setShowPassword] = React.useState(false);
   const [name, setName] = React.useState("");
   const [errors, setErrors] = React.useState('')
-  const [password, setPassword] = React.useState("");
+  // const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+  // const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const handleMouseDownPassword = (
+  //   event: React.MouseEvent<HTMLButtonElement>
+  // ) => {
+  //   event.preventDefault();
+  // };
   const searchParams = useSearchParams()
 
   const token = searchParams?.get('token')
@@ -52,9 +52,11 @@ export default function Signup() {
   const submit = async () => {
     console.log("submit");
     setIsLoading(true);
+    const password = data?.verifyEmailToken.rawToken
+    const email = data?.verifyEmailToken.email
     const data_ = {
         name,
-        email: data?.verifyEmailToken.email,
+        email,
         password
     }
     signup(data_).then(result => {
@@ -67,7 +69,7 @@ export default function Signup() {
       else{
         console.log('result', result);
         localStorage.setItem('name', name);
-        processLogin({ email: data_.email, password})
+        processLogin({ email: email, password})
       }
     });
     
@@ -86,7 +88,10 @@ export default function Signup() {
   }
 
   const mute = () => {
-    return name && password
+    if(!data?.verifyEmailToken.isReturning){
+      return name && true;
+    }
+    return true;
   }
 
   return (
@@ -138,16 +143,25 @@ export default function Signup() {
           alignItems="flex-start"
         >
           <Grid>
-              <FormHeader header="Signup" />
+              <FormHeader header="Signin" />
           </Grid>
-          <TextField 
+          {!data?.verifyEmailToken.isReturning ? (
+            <TextField 
               sx={{ m: 1, width: cardWidth }} 
               id="name" 
               label="Name" 
               variant="filled" 
               onChange={(e) => setName(e.target.value)}
-          />
-          <FormControl sx={{ m: 1, width: cardWidth }} variant="filled">
+            />
+           ) : (
+            <Grid>
+              <p>
+                Hello {data?.verifyEmailToken.name}, <br />
+                Welcome back!</p>
+            </Grid>
+           )}
+          
+          {/* <FormControl sx={{ m: 1, width: cardWidth }} variant="filled">
             <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
             <FilledInput
               id="password"
@@ -166,7 +180,7 @@ export default function Signup() {
                 </InputAdornment>
               }
             />
-          </FormControl>
+          </FormControl> */}
           {errors !== '' && (
             <FormError message={errors} />
           )}
@@ -192,11 +206,6 @@ export default function Signup() {
           </Grid>
         </Grid>
         )}
-        <Grid>
-            <Link href="/login">
-                Login
-            </Link>
-        </Grid>
       </Grid>
       </Grid>
       <div>

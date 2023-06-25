@@ -46,7 +46,10 @@ const FETCH_POLLS = gql`
 const VERIFY_EMAIL_TOKEN = gql`
   query VerifyEmailToken($token: String, $type: String!) {
     verifyEmailToken(token: $token, type: $type) {
-        email
+        isReturning,
+        rawToken,
+        email,
+        name
     }
   }
 `;

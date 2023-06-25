@@ -74,8 +74,8 @@ export default function Signup() {
                   Email Sent!
               </h2>
               <p>
-                  Verification email sent. <br />
-                  Check your email for a link to continue.
+                  Signin email sent. <br />
+                  Check your email for a magic link to continue.
               </p>
           </Grid>
 
@@ -111,9 +111,6 @@ export default function Signup() {
                   Continue
                 </Button>
               )}
-            </Grid>
-            <Grid>
-              <Link href="/login">Login</Link>
             </Grid>
           </Grid>
           )}

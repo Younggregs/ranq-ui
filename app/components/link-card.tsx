@@ -17,7 +17,7 @@ import {
   } from "react-share";
 import { uiUrl } from "../lib/constants";
 
-export default function LinkCard({type, id}: {type: string, id: string}) {
+export default function LinkCard({type, id, title}: {type: string, id: string, title: string}) {
     const [copied, setCopied] = React.useState(false);   
     const link = `${uiUrl}/vote?id=${id}`
 
@@ -71,31 +71,31 @@ export default function LinkCard({type, id}: {type: string, id: string}) {
                >
                    <TwitterShareButton
                        url={link}
-                       title="Vote for your favourite musician"
+                       title={title}
                    >
                        <TwitterIcon size={32} round={true} />
                    </TwitterShareButton>
                    <FacebookShareButton
                        url={link}
-                       title="Vote for your favourite musician"
+                       title={title}
                    >
                        <FacebookIcon size={32} round={true} />
                    </FacebookShareButton>
                    <WhatsappShareButton
                        url={link}
-                       title="Vote for your favourite musician"
+                       title={title}
                    >
                        <WhatsappIcon size={32} round={true} />
                    </WhatsappShareButton>
                    <LinkedinShareButton
                        url={link}
-                       title="Vote for your favourite musician"
+                       title={title}
                    >
                        <LinkedinIcon size={32} round={true} />
                    </LinkedinShareButton>
                    <TelegramShareButton
                        url={link}
-                       title="Vote for your favourite musician"
+                       title={title}
                    >
                        <TelegramIcon size={32} round={true} />
                    </TelegramShareButton>
