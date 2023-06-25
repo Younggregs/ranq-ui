@@ -78,7 +78,7 @@ export default function VoteEmail() {
             sx={{ m: 1, width: cardWidth }} 
         >
             <div>
-                <Link href="/signin">
+                <Link href="/verify-email">
                     Sigin
                 </Link>
             </div>
