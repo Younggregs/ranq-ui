@@ -17,6 +17,7 @@ import { useQuery, useMutation,  cacheExchange, fetchExchange, } from 'urql';
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FETCH_RANK_POLL }from "../utils/queries";
 import { CREATE_VOTE }from "../utils/mutations";
+import Link from "next/link";
 
   const data = {
     title: "Best Musician 2023",
@@ -44,6 +45,7 @@ export default function Rank() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [ranked, setRanked] = React.useState([]);
     const [voted, setVoted] = React.useState(false);
+    const [pollToken, setPollToken] = React.useState('');
     const searchParams = useSearchParams()
     const token = searchParams?.get('token')
     console.log('id', token)
@@ -80,8 +82,10 @@ export default function Rank() {
         setIsLoading(false);
         if (result.error) {
           console.error('Oh no!', result.error);
+        }else{
+          setPollToken(result.data.createVote.poll.token);
+          console.log('result', result);
         }
-        console.log('result', result);
         setVoted(true);
       });
       
@@ -104,6 +108,11 @@ export default function Rank() {
         >
             <h4>You have voted!</h4>
             <p>Your vote has been recorded successfully, thank you.</p>
+            <p>Follow the result
+                <Link href={`/result?token=${pollToken}`}>
+                  <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
+                </Link>
+            </p>
         </Grid>
       </Grid>
      ) : (

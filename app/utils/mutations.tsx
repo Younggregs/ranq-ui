@@ -48,7 +48,9 @@ const CREATE_VOTE = gql`
      mutation CreateVote($id: String!, $ranked: [String!]) {
         createVote(id: $id, ranked: $ranked) {
             poll{
-                id
+                id,
+                title,
+                token
             }
         }
     }

@@ -24,7 +24,8 @@ const FETCH_POLL_BY_ID = gql`
         votes,
         resultSet{
             id,
-            popularVote
+            popularVote,
+            rankRaiseBar
         },
       }
     }
@@ -64,7 +65,8 @@ const FETCH_RANK_POLL = gql`
           voters,
           duration,
           type,
-          status
+          status,
+          token
       }
     }
 `;
@@ -79,11 +81,25 @@ const POLL_RESULT = gql`
     }
 `;
 
+const POLL_STATUS = gql`
+  query PollStatus($token: String) {
+    pollStatus(token: $token) {
+        isValid,
+        pollStatus,
+        isLoggedIn,
+        email,
+        title,
+        name,
+    }
+  }
+`;
+
 export {
     FETCH_USERS,
     FETCH_POLL_BY_ID,
     FETCH_POLLS, 
     VERIFY_EMAIL_TOKEN,
     FETCH_RANK_POLL,
-    POLL_RESULT
+    POLL_RESULT,
+    POLL_STATUS
 }

@@ -26,8 +26,8 @@ export default function Result({data}: {data: any}) {
                     value={type}
                     onChange={(e) => setType(e.target.value)}
                 >
-                    <MenuItem value={'popularVote'}>Rank 1 Technique</MenuItem>
                     <MenuItem value={'popularVote'}>Popular Vote</MenuItem>
+                    <MenuItem value={'rankRaiseBar'}>Rank 1 Technique</MenuItem>
                 </Select>
             </FormControl>
             <ResultTable data={JSON.parse(data[type] || '[]')} />

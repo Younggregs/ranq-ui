@@ -53,7 +53,20 @@ export default function Result() {
         <Grid>
             <FormHeader header="Your Poll" />
         </Grid>
-        <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>    
+        {data?.pollById?.status.toLowerCase() === 'ongoing' ? (
+          <Grid
+            container
+            direction="column"
+            sx={{ m: 2, width: cardWidth }}
+            style={styles.card}
+          >
+            <h4>Poll is Ongoing</h4>
+            <p>...</p>
+          </Grid>
+        ) : (
+          <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>  
+        )}
+
         <Grid
              container
              direction="column"
@@ -61,7 +74,7 @@ export default function Result() {
              style={styles.card}
         >
             <h4>Votes Recorded</h4>
-            <p>{data?.pollById.votes}</p>
+            <p>{data?.pollById?.votes}</p>
         </Grid>
         <Grid
              container
@@ -69,8 +82,8 @@ export default function Result() {
              sx={{ m: 2, width: cardWidth }}
              style={styles.card}
         >
-            <h4>{data?.pollById.title}</h4>
-            {data?.pollById.description}
+            <h4>{data?.pollById?.title}</h4>
+            {data?.pollById?.description}
         </Grid>
         <Grid
              container
