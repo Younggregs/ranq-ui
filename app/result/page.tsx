@@ -17,6 +17,7 @@ import { cardWidth } from "../lib/constants";
 import ResultCard from "../components/result-card";
 import { useQuery } from 'urql';
 import { FETCH_POLL_BY_ID }from "../utils/queries";
+import Countdown from "../components/countdown";
 
 export default function Result() {   
     const searchParams = useSearchParams()
@@ -61,7 +62,11 @@ export default function Result() {
             style={styles.card}
           >
             <h4>Poll is Ongoing</h4>
-            <p>...</p>
+            <Countdown
+                createdAt={data?.pollById.createdAt}
+                duration={data?.pollById.duration}
+                durationS={data?.pollById.durationS}
+            />
           </Grid>
         ) : (
           <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>  

@@ -18,6 +18,7 @@ const FETCH_POLL_BY_ID = gql`
         contestants,
         voters,
         duration,
+        durationS,
         type,
         status, 
         token,
@@ -27,6 +28,7 @@ const FETCH_POLL_BY_ID = gql`
             popularVote,
             rankRaiseBar
         },
+        createdAt,
       }
     }
 `;
@@ -94,6 +96,18 @@ const POLL_STATUS = gql`
   }
 `;
 
+const VOTER_STATUS = gql`
+  query VoterStatus($token: String) {
+    voterStatus(token: $token) {
+        voted,
+        isValid,
+        pollStatus,
+        token,
+        title
+    }
+  }
+`;
+
 export {
     FETCH_USERS,
     FETCH_POLL_BY_ID,
@@ -101,5 +115,6 @@ export {
     VERIFY_EMAIL_TOKEN,
     FETCH_RANK_POLL,
     POLL_RESULT,
-    POLL_STATUS
+    POLL_STATUS,
+    VOTER_STATUS
 }

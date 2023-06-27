@@ -8,54 +8,27 @@ import {
   ListItem,
   ListItemText,
 } from "../lib/mui";
-import { Folder, ContactPage, VisibilityOff, HowToVote } from "../lib/mui-icon";
+import { ContactPage, HowToVote } from "../lib/mui-icon";
 import copy from 'copy-to-clipboard';
 import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { useSearchParams } from 'next/navigation'
-import timeRemaining from "../lib/time-remaining";
 import { cardWidth } from "../lib/constants";
 import LinkCard from "../components/link-card";
 import ResultCard from "../components/result-card";
-import { useQuery, cacheExchange, fetchExchange, } from 'urql';
+import { useQuery } from 'urql';
 import { FETCH_POLL_BY_ID }from "../utils/queries";
+import Countdown from "../components/countdown";
 
 export default function Poll() {   
-    const [pollStatus, setPollStatus] = React.useState('completed');
-    const [timeLeft, setTimeLeft] = React.useState(timeRemaining());
     const [isLoading, setIsLoading] = React.useState(false);
     const searchParams = useSearchParams()
     const id = searchParams?.get('id')
-    console.log('id', id)
 
     const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
 
     const { data, fetching, error } = res;
-    console.log('data', data)
-
-    // React.useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //       setTimeLeft(timeRemaining());
-    //     }, 1000);
-
-    //     return () => clearTimeout(timer);
-    // });
-
-    const timerComponents: any = [];
-
-    // Object.keys(timeLeft).forEach((interval) => {
-        
-    //     timerComponents.push(
-    //         <span>
-    //         {!timeLeft[interval]? (
-    //             0
-    //         ): (
-    //             timeLeft[interval]
-    //         )}
-    //         </span>
-    //     );
-    // });
 
   return (
     <main className={stylesMain.main}>
@@ -165,14 +138,11 @@ export default function Poll() {
              style={styles.card}
         >
             <h4>Duration</h4>
-            
-            <div>
-                {timerComponents.length ? timerComponents :
-                    <span>
-                        {data?.pollById.duration}
-                    </span>
-                }
-            </div>
+            <Countdown
+                createdAt={data?.pollById.createdAt}
+                duration={data?.pollById.duration}
+                durationS={data?.pollById.durationS}
+            />
         </Grid>
       </Grid>
       </Grid>

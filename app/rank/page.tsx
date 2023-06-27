@@ -4,43 +4,19 @@ import stylesMain from "../page.module.css";
 import {
   Grid,
   Button,
-  ListItemText,
 } from "../lib/mui";
-import { Folder, ContactPage, VisibilityOff, HowToVote } from "../lib/mui-icon";
-import copy from 'copy-to-clipboard';
 import Title from "../components/title";
 import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useQuery, useMutation,  cacheExchange, fetchExchange, } from 'urql';
+import { useQuery, useMutation } from 'urql';
 import { useRouter, useSearchParams } from 'next/navigation'
-import { FETCH_RANK_POLL }from "../utils/queries";
+import { FETCH_RANK_POLL, VOTER_STATUS }from "../utils/queries";
 import { CREATE_VOTE }from "../utils/mutations";
 import Link from "next/link";
 
-  const data = {
-    title: "Best Musician 2023",
-    description: "Rate by trend, quality, lyrics, rhythm and dept",
-    contestants: [
-        "Davido",
-        "Asake",
-        "Seyi Vibes",
-        "Young Jonn",
-        "Wande Coal"
-    ],
-    type: "public",
-    voters: [
-        "dretzam@gmail.com",
-        "ret@red.com",
-        "doll@gmail.com",
-        "drape@gmail.com"
-    ],
-    duration: "1:15:15"
-}
 export default function Rank() {   
-    const [pollStatus, setPollStatus] = React.useState('ongoing');
-    const router = useRouter()
     const [createVoteResult, createVote] = useMutation(CREATE_VOTE);
     const [isLoading, setIsLoading] = React.useState(false);
     const [ranked, setRanked] = React.useState([]);
@@ -50,10 +26,14 @@ export default function Rank() {
     const token = searchParams?.get('token')
     console.log('id', token)
 
-    const [res] = useQuery({query: FETCH_RANK_POLL, variables: {token}});
+    const [res_status] = useQuery({query: VOTER_STATUS, variables: {token}});
+    const { data: data_, fetching: fetching_, error: error_ } = res_status;
+    console.log('data_', data_)
 
-    const { data, fetching, error } = res;
+    const [res_rank_poll] = useQuery({query: FETCH_RANK_POLL, variables: {token}});
+    const { data, fetching, error } = res_rank_poll;
     console.log('data', data)
+
     React.useEffect(() => {
         if (data?.fetchRankPoll?.contestants)
           setRanked(data?.fetchRankPoll.contestants);
@@ -130,9 +110,65 @@ export default function Rank() {
             <FormHeader header="Rank contestants" />
         </Grid>
         
-        {fetching ? (
+        {fetching || fetching_ && (
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
             <ActivityIndicator />
-        ): (
+          </Grid>
+        )}
+
+        {!fetching_ && !fetching && !data_?.voterStatus.isValid && (
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+                <h2>Wrong Turn</h2>
+                <p>This link is invalid</p>
+            </Grid>
+          )}
+
+          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus === 'completed' && (
+            <Grid 
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+                <h2>Hello, Poll has ended.</h2>
+                <p>Voting has ended on this poll</p>
+                <p>Title: {data_?.voterStatus.title} </p>
+                <p>Check the result
+                  <Link href={`/result?token=${data_?.voterStatus?.token}`}>
+                    <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
+                  </Link>
+                </p>
+            </Grid>
+          )}
+
+          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.voted && data_?.voterStatus.pollStatus !== 'completed' && (
+            <Grid 
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+                <h2>Hello, This voting link has been used.</h2>
+                <p>Title: {data_?.voterStatus?.title} </p>
+                <p>Check the result
+                  <Link href={`/result?token=${data_?.voterStatus?.token}`}>
+                    <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
+                  </Link>
+                </p>
+            </Grid>
+          )}
+
+        {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus !== 'completed' && !data_?.voterStatus.voted && (
           <Grid>
           <Grid
               container

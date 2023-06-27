@@ -1,8 +1,14 @@
-const timeRemaining = () => {
-    let year = new Date().getFullYear();
-    let difference = +new Date(`10/01/${year}`) - +new Date();
-  
-    let timeLeft = {};
+import { TimeLeft } from "./interfaces";
+
+const timeRemaining = (endDate: Date) => {
+    let difference = +endDate - +new Date();
+
+    let timeLeft: TimeLeft = {
+      days: "",
+      hours: "",
+      minutes: "",
+      seconds: 0
+    };
   
     if (difference > 0) {
       timeLeft = {
