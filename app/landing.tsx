@@ -1,44 +1,30 @@
-import Image from 'next/image'
 import stylesMain from './page.module.css'
-import Title from "./components/title";
-import { cardWidth } from './lib/constants';
 import { Grid } from './lib/mui';
-import Link from 'next/link';
+import Footer2 from "./components/footer-2";
+import Footer1 from "./components/footer-1";
+import MenuBar from "./components/menu-bar";
+import ContainerTitle from './components/landing/container-title';
+import ContainerHowTo from './components/landing/container-how-to';
+import ContainerFeature from './components/landing/container-feature';
+import ContainerFAQ from './components/landing/container-faq';
 
 export default function Landing() {
   return (
     <main className={stylesMain.main}>
-      <Title />
-
-      <Grid
-        justifyContent="center"
-        alignItems="center"
-      >
-          <h3>Welcome to Rank!</h3>
-          <p>Rank contestants officially and just for fun...</p>
+      <Grid container>
+        <MenuBar />
       </Grid>
+
+      <ContainerTitle />
+      <ContainerHowTo />
+      <ContainerFeature />
+      <ContainerFAQ />
 
       <Grid
         container
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        sx={{ m: 2, width: cardWidth }}
       >
-        <Link href="/verify-email">
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ m:2, width: cardWidth }}
-            style={styles.card}
-          >
-              <h2>
-                  Signin
-              </h2>
-          </Grid>
-        </Link>
+        <Footer1 />
+        <Footer2 />
       </Grid>
     </main>
   )
@@ -50,5 +36,28 @@ const styles = {
     padding: "1rem",
     border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
     borderRadius: "var(--border-radius)",
+  }, 
+  containerTitle: {
+    backgroundColor: '#0F1017',
+    minHeight: '30rem',
+    color: '#fff',
+    padding: '0 1rem',
+    textAlign: 'center',
+  }, 
+  title: {
+    fontSize: '3rem',
+    fontWeight: 'bold',
+    margin: '0',
+    padding: '0',
+  },
+  text: {
+    fontSize: '1rem',
+    fontWeight: 'normal',
+    margin: '0',
+    padding: '0',
+    color: '#CFCFD1'
+  },
+  spacing: {
+    marginBottom: '1rem',
   }
 };

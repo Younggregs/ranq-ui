@@ -12,7 +12,7 @@ import { cardWidth } from "../lib/constants";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useQuery, useMutation } from 'urql';
 import { useRouter, useSearchParams } from 'next/navigation'
-import { FETCH_RANK_POLL, VOTER_STATUS }from "../utils/queries";
+import { FETCH_POLL_BY_ID, FETCH_RANK_POLL, VOTER_STATUS }from "../utils/queries";
 import { CREATE_VOTE }from "../utils/mutations";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function Rank() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [ranked, setRanked] = React.useState([]);
     const [voted, setVoted] = React.useState(false);
-    const [pollToken, setPollToken] = React.useState('');
+    const router = useRouter()
     const searchParams = useSearchParams()
     const token = searchParams?.get('token')
     console.log('id', token)
@@ -30,13 +30,13 @@ export default function Rank() {
     const { data: data_, fetching: fetching_, error: error_ } = res_status;
     console.log('data_', data_)
 
-    const [res_rank_poll] = useQuery({query: FETCH_RANK_POLL, variables: {token}});
+    const [res_rank_poll] = useQuery({query: FETCH_POLL_BY_ID, variables: {id: token}});
     const { data, fetching, error } = res_rank_poll;
     console.log('data', data)
 
     React.useEffect(() => {
-        if (data?.fetchRankPoll?.contestants)
-          setRanked(data?.fetchRankPoll.contestants);
+        if (data?.pollById?.contestants)
+          setRanked(data?.pollById.contestants);
     }, [data]);
 
     // Function to update list on drop
@@ -55,7 +55,7 @@ export default function Rank() {
     const submit = () => {
       setIsLoading(true);
       const data_ = {
-        id: token,
+        id: data?.pollById.id,
         ranked,
       }
       createVote(data_).then(result => {
@@ -63,12 +63,14 @@ export default function Rank() {
         if (result.error) {
           console.error('Oh no!', result.error);
         }else{
-          setPollToken(result.data.createVote.poll.token);
           console.log('result', result);
         }
         setVoted(true);
       });
-      
+    }
+
+    const redirectToSigin = () => {
+      router.push(`/verify-email?token=${token}`)
     }
 
   return (
@@ -89,7 +91,7 @@ export default function Rank() {
             <h4>You have voted!</h4>
             <p>Your vote has been recorded successfully, thank you.</p>
             <p>Follow the result
-                <Link href={`/result?token=${pollToken}`}>
+                <Link href={`/result?token=${token}`}>
                   <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
                 </Link>
             </p>
@@ -133,7 +135,11 @@ export default function Rank() {
             </Grid>
           )}
 
-          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus === 'completed' && (
+          {!fetching_ && !fetching && data_?.voterStatus.isValid && !data_?.voterStatus.isLoggedIn && (
+            redirectToSigin()
+          )}
+
+          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus === 'completed' && data_?.voterStatus.isLoggedIn && (
             <Grid 
               container
               direction="column"
@@ -144,31 +150,31 @@ export default function Rank() {
                 <p>Voting has ended on this poll</p>
                 <p>Title: {data_?.voterStatus.title} </p>
                 <p>Check the result
-                  <Link href={`/result?token=${data_?.voterStatus?.token}`}>
+                  <Link href={`/result?token=${token}`}>
                     <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
                   </Link>
                 </p>
             </Grid>
           )}
 
-          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.voted && data_?.voterStatus.pollStatus !== 'completed' && (
+          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.voted && data_?.voterStatus.pollStatus !== 'completed' && data_?.voterStatus.isLoggedIn && (
             <Grid 
               container
               direction="column"
               justifyContent="center"
               alignItems="center"
             >
-                <h2>Hello, This voting link has been used.</h2>
+                <h2>Hello {data_?.voterStatus.name}, You have voted</h2>
                 <p>Title: {data_?.voterStatus?.title} </p>
                 <p>Check the result
-                  <Link href={`/result?token=${data_?.voterStatus?.token}`}>
+                  <Link href={`/result?token=${token}`}>
                     <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
                   </Link>
                 </p>
             </Grid>
           )}
 
-        {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus !== 'completed' && !data_?.voterStatus.voted && (
+        {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus !== 'completed' && !data_?.voterStatus.voted && data_?.voterStatus.isLoggedIn && (
           <Grid>
           <Grid
               container
@@ -176,8 +182,8 @@ export default function Rank() {
               sx={{ m: 2, width: cardWidth }}
               style={styles.card}
           >
-              <h4>{data?.fetchRankPoll.title}</h4>
-              {data?.fetchRankPoll.description}
+              <h4>{data?.pollById.title}</h4>
+              {data?.pollById.description}
           </Grid>
           <Grid
               container
@@ -186,7 +192,7 @@ export default function Rank() {
               style={styles.card}
           >
               <h4>
-                Vote Below! Contestants ({data?.fetchRankPoll.contestants.length})
+                Vote Below! Contestants ({data?.pollById.contestants.length})
               </h4>
               <p>Drag and drop contestants from highest to lowest</p>
           </Grid>

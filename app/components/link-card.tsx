@@ -17,9 +17,9 @@ import {
   } from "react-share";
 import { uiUrl } from "../lib/constants";
 
-export default function LinkCard({type, id, title}: {type: string, id: string, title: string}) {
+export default function LinkCard({type, token, title}: {type: string, token: string, title: string}) {
     const [copied, setCopied] = React.useState(false);   
-    const link = `${uiUrl}/vote?id=${id}`
+    const link = `${uiUrl}/rank?token=${token}`
 
     const copyLink = () => {
         setCopied(true);

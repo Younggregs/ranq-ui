@@ -40,6 +40,7 @@ export default function Signup() {
   const searchParams = useSearchParams()
 
   const token = searchParams?.get('token')
+  const pollToken = searchParams?.get('poll')
   console.log('token', token)
 
   const [res] = useQuery({query: VERIFY_EMAIL_TOKEN, variables: {token, type: 'signup_email'}});
@@ -83,8 +84,16 @@ export default function Signup() {
         console.error('Oh no!', result.error);
       }
       localStorage.setItem('token', result.data.tokenAuth.token);
-      router.push('/')
+      redirectTo()
     });
+  }
+
+  const redirectTo = () => {
+    if (pollToken) {
+      router.push(`/rank?token=${pollToken}`)
+    }else{
+      router.push('/')
+    }
   }
 
   const mute = () => {

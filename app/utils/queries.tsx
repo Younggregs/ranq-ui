@@ -99,11 +99,14 @@ const POLL_STATUS = gql`
 const VOTER_STATUS = gql`
   query VoterStatus($token: String) {
     voterStatus(token: $token) {
-        voted,
-        isValid,
-        pollStatus,
-        token,
-        title
+      voted,
+      isValid,
+      pollStatus
+      token, 
+      title,
+      isLoggedIn,
+      name,
+      email
     }
   }
 `;

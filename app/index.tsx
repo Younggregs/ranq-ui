@@ -2,18 +2,23 @@
 import * as React from "react";
 import stylesMain from "./page.module.css";
 import {
-  Grid,
+  Grid, Menu,
 } from "./lib/mui";
 import { Visibility, VisibilityOff } from "./lib/mui-icon";
 import Link from 'next/link'
 import Title from "./components/title";
 import { cardWidth } from "./lib/constants";
+import Footer2 from "./components/footer-2";
+import Footer1 from "./components/footer-1";
+import MenuBar from "./components/menu-bar";
 
 export default function Index() {
 
   return (
     <main className={stylesMain.main}>
-      <Title />
+      <Grid container>
+        <MenuBar />
+      </Grid>
 
       <Grid
         justifyContent="center"
@@ -57,9 +62,12 @@ export default function Index() {
           </Grid>
         </Link>
       </Grid>
-      <div>
-        <p>Terms and Conditions apply</p>
-      </div>
+      <Grid
+        container
+      >
+        <Footer1 />
+        <Footer2 />
+      </Grid>
     </main>
   );
 }

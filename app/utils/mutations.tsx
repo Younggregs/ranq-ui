@@ -57,8 +57,8 @@ const CREATE_VOTE = gql`
 `;
 
 const VERIFY_EMAIL = gql`
-    mutation EmailVerification($email: String!, $type: String!) {
-    emailVerification(email: $email, type: $type) {
+    mutation EmailVerification($email: String!, $type: String!, $pollToken: String) {
+    emailVerification(email: $email, type: $type, pollToken: $pollToken) {
         emailToken{
             email
         }

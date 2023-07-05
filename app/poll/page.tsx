@@ -57,7 +57,7 @@ export default function Poll() {
             <FormHeader header="Your Poll" />
         </Grid>
         {data?.pollById.status.toLowerCase() === 'ongoing' ? (
-            <LinkCard type={data?.pollById.type} id={data?.pollById.token} title={data?.pollById.title} />
+            <LinkCard type={data?.pollById.type} token={data?.pollById.token} title={data?.pollById.title} />
         ): (
             <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>
         )}

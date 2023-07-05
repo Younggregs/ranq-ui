@@ -20,11 +20,15 @@ import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
 import { useMutation, cacheExchange, fetchExchange } from "urql";
 import { VERIFY_EMAIL } from "../utils/mutations";
+import { useSearchParams } from "next/navigation";
 
 export default function Signup() {
   const [emailSent, setEmailSent] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const searchParams = useSearchParams()
+  const token = searchParams?.get('token')
+  console.log('token', token)
 
   const [verifyEmailResult, verifyEmail] = useMutation(VERIFY_EMAIL);
 
@@ -34,6 +38,7 @@ export default function Signup() {
     const data = {
       email,
       type: "signup_email",
+      pollToken: token || false,
     };
     verifyEmail(data).then((result) => {
       setIsLoading(false);
