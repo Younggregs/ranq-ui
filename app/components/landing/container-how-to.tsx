@@ -66,7 +66,6 @@ export default function ContainerHowTo() {
             <CustomButton 
                 color="#E14817" 
                 border="1px solid #E14817"
-                url="/verify-email" 
                 title="Create Poll" 
                 Icon={false}
             />
