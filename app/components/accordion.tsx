@@ -72,7 +72,7 @@ const styles = {
         marginBotton: '1rem'
     },
     textBox: {
-        width: '25rem',
+        width: '20rem',
         padding: '1rem',
         marginBotton: '1rem',
         marginTop: '1rem'

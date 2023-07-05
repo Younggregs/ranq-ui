@@ -36,15 +36,12 @@ export default function ContainerFAQ() {
                         <CustomButton 
                             color="#E14817" 
                             border="1px solid #E14817"
-                            url="/verify-email" 
                             title="Create Poll" 
                             width="15rem"
                         />
-                        
 
                         <CustomButton 
                             border="1px solid #fff"
-                            url="/verify-email" 
                             title="Rank Poll" 
                             width="15rem"
                         />

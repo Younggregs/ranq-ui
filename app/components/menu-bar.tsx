@@ -18,7 +18,7 @@ import Icon from './icons';
 import { Grid } from '../lib/mui';
 import MenuModal from './menu-modal';
 
-const pages = ['Home', 'Create Poll', 'Rank Poll', 'FAQs', 'Log out'];
+const pages = ['Home', 'Create Poll', 'Rank Poll', 'FAQs', 'Sign Out'];
 
 function MenuBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

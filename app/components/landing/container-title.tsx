@@ -21,7 +21,6 @@ export default function ContainerTitle() {
             <CustomButton 
                 color="#E14817" 
                 border="1px solid #E14817"
-                url="/verify-email" 
                 title="Create Poll" 
                 Icon={false}
             />
@@ -29,7 +28,6 @@ export default function ContainerTitle() {
             <CustomButton 
                 color="#0F1017" 
                 border="1px solid #fff"
-                url="/verify-email" 
                 title="Rank Poll" 
                 Icon={<East />}
             />

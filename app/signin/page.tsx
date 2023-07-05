@@ -23,6 +23,8 @@ import { useMutation, useQuery, fetchExchange, } from 'urql';
 import { LOGIN, SIGNUP }from "../utils/mutations";
 import { useRouter, useSearchParams } from 'next/navigation'
 import { VERIFY_EMAIL_TOKEN } from "../utils/queries";
+import Footer2 from "../components/footer-2";
+import Logo from "../components/logo";
 
 export default function Signup() {
   const router = useRouter()
@@ -104,13 +106,20 @@ export default function Signup() {
   }
 
   return (
-    <main className={stylesMain.main}>
-      <Title />
+    <main className={stylesMain.main} style={{backgroundColor: '#fff'}}>
+      <Grid container>
+        <Grid 
+          style={styles.headerBox} 
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-end"
+        >
+          <Logo shade="dark" />
+        </Grid>
+      </Grid>
 
-      <Grid
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid>
         <Grid
           container
           direction="column"
@@ -151,20 +160,20 @@ export default function Signup() {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Grid>
-              <FormHeader header="Signin" />
-          </Grid>
+          <Grid style={styles.spacing}>
+              <p style={styles.title}>Sign In</p>
+            </Grid>
           {!data?.verifyEmailToken.isReturning ? (
             <TextField 
               sx={{ m: 1, width: cardWidth }} 
               id="name" 
               label="Name" 
-              variant="filled" 
+              variant="outlined" 
               onChange={(e) => setName(e.target.value)}
             />
            ) : (
             <Grid>
-              <p>
+              <p style={styles.text}>
                 Hello {data?.verifyEmailToken.name}, <br />
                 Welcome back!</p>
             </Grid>
@@ -204,7 +213,7 @@ export default function Signup() {
               <ActivityIndicator />
           ): (
           <Button 
-              sx={{ m: 2, width: "30ch" }} 
+              sx={styles.button}
               variant="contained"
               onClick={submit}
               disabled={!mute()}
@@ -217,15 +226,54 @@ export default function Signup() {
         )}
       </Grid>
       </Grid>
-      <div>
-        <p>Terms and Conditions apply</p>
-      </div>
+      <Grid
+        container
+      >
+        <Footer2 />
+      </Grid>
     </main>
   );
 }
 
 const styles = {
   input: {
+    backgroundColor: "#fff",
+  },
+  button: {
+    m: 2, 
+    width: "30ch", 
+    backgroundColor: "#E14817", 
+    borderRadius: "10px",
+    height: "3rem",
+  },
+  title: {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#000',
+    margin: '0',
+    padding: '0',
+  },
+  text: {
+    fontSize: '1rem',
+    fontWeight: 'normal',
+    margin: '0',
+    padding: '0',
+    color: '#000'
+  },
+  spacing: {
+    marginBottom: '3rem',
+  },
+  headerBox: {
+    height: "30vh",
+    width: "100%",
+    backgroundColor: "#fff",
+    backgroundImage: "url(/ellipse.svg)",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    padding: "0 1rem",
+  },
+  formBox: {
     backgroundColor: "#fff",
   },
 };

@@ -4,17 +4,15 @@ import { Grid } from '../lib/mui'
 import { East } from '@mui/icons-material'
 
 export default function CustomButton(
-    {color, border, width='20rem', url, title, Icon}: 
+    {color, border, width='20rem', title, Icon}: 
     {
         color?: string, 
         border?: string, 
         width?: string,
-        url: string, 
         title: string, 
         Icon?: any
     }) {
     return (
-        <Link href={url}>
           <Grid
             container
             direction="row"
@@ -28,7 +26,6 @@ export default function CustomButton(
               </h3>
               {Icon && Icon}
           </Grid>
-        </Link>
     )
 }
 

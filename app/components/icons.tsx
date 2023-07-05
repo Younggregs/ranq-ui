@@ -12,6 +12,7 @@ export default function Icon({name, size}: {name: string, size?: number}) {
         instagram: '/instagram.svg',
         linkedin: '/linkedin.svg',
         menu: '/menu.svg',
+        signin: '/signin.svg',
         signout: '/signout.svg',
         step1: '/step-1.svg',
         step2: '/step-2.svg',

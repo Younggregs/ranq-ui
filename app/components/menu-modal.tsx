@@ -15,6 +15,8 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Grid, ListItemButton, ListItemIcon } from '../lib/mui';
 import Icon from './icons';
 import Logo from './logo';
+import { useRouter } from 'next/navigation';
+
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -27,6 +29,8 @@ const Transition = React.forwardRef(function Transition(
 
 export default function MenuModal() {
   const [open, setOpen] = React.useState(false);
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const router = useRouter()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,6 +39,16 @@ export default function MenuModal() {
   const handleClose = () => {
     setOpen(false);
   };
+
+    const handleLogout = () => {
+        console.log('logging out');
+        localStorage.clear();
+        window.location.reload();
+    }
+
+    const handleLogin = () => {
+        router.push('/verify-email')
+    }
 
   return (
     <div>
@@ -90,8 +104,11 @@ export default function MenuModal() {
                                 </ListItem>
                             ))}
 
-                                <ListItem key={'signout'} sx={{marginTop: 10}}>
-                                    <ListItemButton>
+                                {isLoggedIn === 'true' ?(
+                                    <ListItem key={'signout'} sx={{marginTop: 10}}>
+                                    <ListItemButton
+                                        onClick={() => handleLogout()}
+                                    >
                                         <ListItemText 
                                             sx={styles.listFont} 
                                             primary={'Sign Out'} />
@@ -100,6 +117,21 @@ export default function MenuModal() {
                                         </ListItemIcon>
                                     </ListItemButton>
                                 </ListItem>
+                                ): (
+                                <ListItem key={'signin'} sx={{marginTop: 10}}>
+                                    <ListItemButton
+                                        onClick={() => handleLogin()}
+                                    >
+                                        <ListItemText 
+                                            sx={styles.listFont} 
+                                            primary={'Sign In'} />
+                                            <ListItemIcon>
+                                                <Icon name="signin" />
+                                        </ListItemIcon>
+                                    </ListItemButton>
+                                </ListItem>
+                                ) }
+                                
                         </List>
                     </Grid>
                 </Grid>

@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import styles from "../page.module.css";
+import styles_ from "../page.module.css";
 import {
   Box,
   TextField,
@@ -21,6 +21,8 @@ import { cardWidth } from "../lib/constants";
 import { useMutation, cacheExchange, fetchExchange } from "urql";
 import { VERIFY_EMAIL } from "../utils/mutations";
 import { useSearchParams } from "next/navigation";
+import Footer2 from "../components/footer-2";
+import Logo from "../components/logo";
 
 export default function Signup() {
   const [emailSent, setEmailSent] = React.useState(false);
@@ -38,7 +40,7 @@ export default function Signup() {
     const data = {
       email,
       type: "signup_email",
-      pollToken: token || false,
+      pollToken: token || "",
     };
     verifyEmail(data).then((result) => {
       setIsLoading(false);
@@ -56,10 +58,22 @@ export default function Signup() {
   };
 
   return (
-    <main className={styles.main}>
-      <Title />
+    <main className={styles_.main} style={{backgroundColor: '#fff'}}>
 
-      <Grid justifyContent="center" alignItems="center">
+      <Grid container>
+        <Grid 
+          style={styles.headerBox} 
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-end"
+        >
+          <Logo shade="dark" />
+        </Grid>
+      </Grid>
+
+      <Grid 
+      >
         <Grid
           container
           direction="column"
@@ -86,15 +100,16 @@ export default function Signup() {
 
           ): (
           <Grid>
-            <Grid>
-              <FormHeader header="Enter Your Email" />
+            <Grid style={styles.spacing}>
+              <p style={styles.title}>Sign In</p>
+              <p style={styles.text}>Enter your email address to proceed</p>
             </Grid>
 
             <TextField
               sx={{ m: 1, width: cardWidth }}
               id="email"
               label="Email"
-              variant="filled"
+              variant="outlined"
               onChange={(e) => setEmail(e.target.value)}
             />
             <Grid
@@ -108,7 +123,7 @@ export default function Signup() {
                 <ActivityIndicator />
               ) : (
                 <Button
-                  sx={{ m: 2, width: "30ch" }}
+                  sx={styles.button}
                   variant="contained"
                   onClick={submit}
                   disabled={!mute()}
@@ -122,9 +137,57 @@ export default function Signup() {
           
         </Grid>
       </Grid>
-      <div>
-        <p>Terms and Conditions apply</p>
-      </div>
+      <Grid
+        container
+      >
+        <Footer2 />
+      </Grid>
+
     </main>
   );
 }
+
+const styles = {
+  headerBox: {
+    height: "30vh",
+    width: "100%",
+    backgroundColor: "#fff",
+    backgroundImage: "url(/ellipse.svg)",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    padding: "0 1rem",
+  },
+  formBox: {
+    backgroundColor: "#fff",
+  },
+  containerTitle: {
+    backgroundColor: '#fff',
+    height: '100vh',
+    padding: '0 1rem',
+  }, 
+  button: {
+    m: 2, 
+    width: "30ch", 
+    backgroundColor: "#E14817", 
+    borderRadius: "10px",
+    height: "3rem",
+  },
+  title: {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#000',
+    margin: '0',
+    padding: '0',
+  },
+  text: {
+    fontSize: '1rem',
+    fontWeight: 'normal',
+    margin: '0',
+    padding: '0',
+    color: '#000'
+  },
+  spacing: {
+    marginBottom: '3rem',
+  }
+};
