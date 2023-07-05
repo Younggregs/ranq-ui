@@ -33,19 +33,22 @@ export default function ContainerFAQ() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <CustomButton 
-                        color="#E14817" 
-                        border="1px solid #E14817"
-                        url="/verify-email" 
-                        title="Create Poll" 
-                    />
+                        <CustomButton 
+                            color="#E14817" 
+                            border="1px solid #E14817"
+                            url="/verify-email" 
+                            title="Create Poll" 
+                            width="15rem"
+                        />
+                        
 
-                    <CustomButton 
-                        border="1px solid #fff"
-                        url="/verify-email" 
-                        title="Rank Poll" 
-                    />
-                </Grid>
+                        <CustomButton 
+                            border="1px solid #fff"
+                            url="/verify-email" 
+                            title="Rank Poll" 
+                            width="15rem"
+                        />
+                    </Grid>
             </Grid>
 
             <Grid
@@ -108,10 +111,10 @@ const styles = {
         backgroundImage: 'url(/background.svg)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        margin: '20px',
         marginTop: '50px',
-        padding: '30px',
         paddingTop: '50px',
+        padding: '1rem',
+        borderRadius: '25px',
     }, 
     containerTitle: {
         backgroundColor: '#fff',

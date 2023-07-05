@@ -31,11 +31,15 @@ export default function Accordion({title, message}: {title: string, message: str
                 sx={{backgroundColor: backgroundColor}}
                 onClick={() => handleClick()}
             >
-                <h3 style={{color: textColor}}>{title}</h3>
-                {!open ? 
-                    <Add style={{color: textColor}}/> : 
-                    <Remove style={{color: textColor}}/>
-                }
+                <Grid item xs={11}>
+                    <h3 style={{color: textColor}}>{title}</h3>
+                </Grid>
+                <Grid item xs={1}>
+                    {!open ? 
+                        <Add style={{color: textColor}}/> : 
+                        <Remove style={{color: textColor}}/>
+                    }
+                </Grid>
             </Grid>
             {open && (
                 <Grid 
@@ -59,7 +63,7 @@ const styles = {
         marginBottom: '1rem'
     },
     titleBox: {
-        width: '25rem',
+        width: '20rem',
         height: '5rem',
         border: '1px solid #000',
         padding: '1rem',

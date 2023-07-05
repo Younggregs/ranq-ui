@@ -76,32 +76,22 @@ export default function ContainerHowTo() {
 }
 
 const styles = {
-    card: {
-        padding: "1rem",
-        border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
-        borderRadius: "var(--border-radius)",
-    }, 
     containerTitle: {
         backgroundColor: '#fff',
         minHeight: '30rem',
         color: '#fff',
         padding: '0 1rem',
-        textAlign: 'center',
     }, 
     title: {
         fontSize: '2rem',
         color: '#35414B',
-        margin: '0',
-        padding: '0',
     },
     text: {
         fontSize: '1rem',
         fontWeight: 'normal',
-        margin: '0',
-        padding: '0',
         color: '#35414B'
     },
     spacing: {
-        margin: 20,
+        margin: '1rem',
     }
 }

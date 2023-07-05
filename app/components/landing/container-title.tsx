@@ -46,7 +46,7 @@ const styles = {
     }, 
     containerTitle: {
       backgroundColor: '#0F1017',
-      minHeight: '30rem',
+      height: '100vh',
       color: '#fff',
       padding: '0 1rem',
       textAlign: 'center',
