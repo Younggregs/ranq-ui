@@ -25,7 +25,6 @@ export default function Home() {
           }else{
             console.log('result', result);
             setIsLoggedIn(true);
-            localStorage.setItem('isLoggedIn', '1')
           }
         });
         

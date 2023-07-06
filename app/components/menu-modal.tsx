@@ -29,7 +29,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function MenuModal() {
   const [open, setOpen] = React.useState(false);
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const isLoggedIn = localStorage.getItem('token');
   const router = useRouter()
 
   const handleClickOpen = () => {
@@ -104,7 +104,7 @@ export default function MenuModal() {
                                 </ListItem>
                             ))}
 
-                                {isLoggedIn === 'true' ?(
+                                {isLoggedIn ?(
                                     <ListItem key={'signout'} sx={{marginTop: 10}}>
                                     <ListItemButton
                                         onClick={() => handleLogout()}
