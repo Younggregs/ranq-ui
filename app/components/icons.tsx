@@ -18,6 +18,9 @@ export default function Icon({name, size}: {name: string, size?: number}) {
         step2: '/step-2.svg',
         step3: '/step-3.svg',
         tickCircle: '/tick-circle.svg',
+        drag: '/drag.svg',
+        clock: '/clock.svg',
+        persons: '/persons.svg',
     }
     return (
         <Image

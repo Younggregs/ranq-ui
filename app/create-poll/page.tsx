@@ -146,7 +146,7 @@ export default function CreatePoll() {
             >
 
                 <TextField 
-                    sx={{ m: 1, width: "6ch" }} 
+                    sx={{ m: 1, width: "8ch" }} 
                     id="day" 
                     label="d" 
                     variant="filled" 
@@ -157,7 +157,7 @@ export default function CreatePoll() {
                 />
 
                 <TextField 
-                    sx={{ m: 1, width: "6ch" }} 
+                    sx={{ m: 1, width: "8ch" }} 
                     id="hour" 
                     label="h" 
                     variant="filled" 
@@ -168,7 +168,7 @@ export default function CreatePoll() {
                 />
 
                 <TextField 
-                    sx={{ m: 1, width: "6ch" }} 
+                    sx={{ m: 1, width: "8ch" }} 
                     id="minute" 
                     label="m" 
                     variant="filled" 
@@ -176,17 +176,6 @@ export default function CreatePoll() {
                     value={m}
                     InputProps={{ inputProps: { min: 0, max: 59 } }}
                     onChange={(e) => checkValidity(e.target.value) && setM(e.target.value)}
-                />
-
-                <TextField 
-                    sx={{ m: 1, width: "6ch" }} 
-                    id="second" 
-                    label="s" 
-                    variant="filled"
-                    type="number"
-                    value={s}
-                    InputProps={{ inputProps: { min: 0, max: 59 } }}
-                    onChange={(e) => checkValidity(e.target.value) && setS(e.target.value)}
                 />
             </Grid>
         </Grid>

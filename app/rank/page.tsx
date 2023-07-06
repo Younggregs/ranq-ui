@@ -15,6 +15,13 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { FETCH_POLL_BY_ID, FETCH_RANK_POLL, VOTER_STATUS }from "../utils/queries";
 import { CREATE_VOTE }from "../utils/mutations";
 import Link from "next/link";
+import Footer1 from "../components/footer-1";
+import Footer2 from "../components/footer-2";
+import MenuBar from "../components/menu-bar";
+import { KeyboardArrowRight, Margin, StayPrimaryLandscapeSharp } from "@mui/icons-material";
+import RankHeader from "../components/rank/header";
+import Icon from "../components/icons";
+import bgColor from "../lib/random-color";
 
 export default function Rank() {   
     const [createVoteResult, createVote] = useMutation(CREATE_VOTE);
@@ -75,7 +82,27 @@ export default function Rank() {
 
   return (
     <main className={stylesMain.main}>
-      <Title />
+      <Grid container>
+        <MenuBar />
+      </Grid>
+
+      <Grid
+        style={styles.titleContainer}
+      >
+        <Grid 
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          style={styles.titleCard}
+        >
+            <p style={styles.title2}>Poll</p>
+            <KeyboardArrowRight />
+            <p style={styles.text}>{data_?.voterStatus.title}</p>
+        </Grid>
+      </Grid>
+
+      
 
      {voted ?(
       <Grid
@@ -99,6 +126,7 @@ export default function Rank() {
       </Grid>
      ) : (
       <Grid
+        container
         justifyContent="center"
         alignItems="center"
       >
@@ -108,9 +136,6 @@ export default function Rank() {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-        <Grid>
-            <FormHeader header="Rank contestants" />
-        </Grid>
         
         {fetching || fetching_ && (
           <Grid
@@ -175,32 +200,35 @@ export default function Rank() {
           )}
 
         {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus !== 'completed' && !data_?.voterStatus.voted && data_?.voterStatus.isLoggedIn && (
-          <Grid>
+          <Grid
+            container
+          >
+            <RankHeader data={data}/>
           <Grid
               container
-              direction="column"
-              sx={{ m: 2, width: cardWidth }}
+              direction="row"
+              justifyContent="space-between"
+              sx={{ width: '100%' }}
               style={styles.card}
           >
-              <h4>{data?.pollById.title}</h4>
-              {data?.pollById.description}
+              <p style={styles.title2}>Contestants</p>
+              <Grid>
+                {isLoading ? (
+                  <ActivityIndicator />
+                ): (
+                  <Button 
+                    sx={styles.button} 
+                    variant="contained"
+                    onClick={() => submit()}
+                >
+                    Submit
+                </Button>
+                )}
+              </Grid>
           </Grid>
           <Grid
-              container
-              direction="column"
-              sx={{ m: 2, width: cardWidth }}
-              style={styles.card}
-          >
-              <h4>
-                Vote Below! Contestants ({data?.pollById.contestants.length})
-              </h4>
-              <p>Drag and drop contestants from highest to lowest</p>
-          </Grid>
-          <Grid
-              container
-              direction="column"
-              sx={{ m: 2, width: cardWidth }}
-              style={styles.card}
+            container
+            direction="column"
           >
               <DragDropContext onDragEnd={handleDrop}>
                 <Droppable droppableId="list-container">
@@ -218,8 +246,12 @@ export default function Rank() {
                             {...provided.dragHandleProps}
                             {...provided.draggableProps}
                           >
-                            <Grid style={styles.itemContainer}>
-                              {item}
+                            <Grid 
+                              style={styles.itemContainer} 
+                              sx={{backgroundColor: bgColor()}}
+                            >
+                              <p>{item.toUpperCase()}</p>
+                              <Icon name="drag" />
                             </Grid>
                           </div>
                         )}
@@ -232,34 +264,18 @@ export default function Rank() {
                 </Droppable>
               </DragDropContext>
           </Grid>
-          <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ m: 1, width: cardWidth }} 
-            >
-          {isLoading ? (
-            <ActivityIndicator />
-            ): (
-            <Button 
-                sx={{ m: 2, width: "30ch" }} 
-                variant="contained"
-                onClick={() => submit()}
-            >
-                Submit
-            </Button>
-            )}
-            </Grid>
           </Grid>
         )}
         
       </Grid>
       </Grid>
       )}
-      <div>
-        <p>Terms and Conditions apply</p>
-      </div>
+      <Grid
+        container
+      >
+        <Footer1 />
+        <Footer2 />
+      </Grid>
     </main>
   );
 }
@@ -270,8 +286,10 @@ const styles = {
   },
   card: {
     padding: "1rem",
-    border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
-    borderRadius: "var(--border-radius)",
+  },
+  rankCard: {
+    margin: "1rem",
+    backgroundColor: "#fff",
   },
  linkCard: {
     border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
@@ -283,18 +301,74 @@ const styles = {
  listContainer: {
     display: "flex",
     fontSize: 18,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
     flexDirection: "column",
-    padding: 2
+    borderRadius: '5px',
+    padding: 2, 
+    margin: '1rem',
+    width: '100%',
   },
   itemContainer: {
-    backgroundColor: "#fff",
+    color: "#fff",
     border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
-    padding: 2,
-    margin: 5,
-    height: 50,
-    justifyContent: "center",
+    borderRadius: '.5rem',
+    padding: '1rem',
+    margin: '1rem',
+    height: '5rem',
+    justifyContent: "space-between",
     alignItems: "center",
-    display: "flex"
-  }
+    display: "flex",
+  },
+  title: {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#000',
+    margin: '0',
+    padding: '0',
+  },
+  title2: {
+    fontSize: '1.5rem',
+    color: '#000',
+    margin: '0',
+    padding: '0',
+  },
+  text: {
+    fontSize: '1rem',
+    fontWeight: 'normal',
+    margin: '0',
+    padding: '0',
+    color: '#000'
+  },
+  titleCard: {
+    margin: '1rem',
+    padding: '1rem'
+  },
+  titleContainer: {
+    backgroundColor: '#D4D4D8',
+    minHeight: '5vh',
+    width: '100%',
+  },
+  titleContainer1: {
+    backgroundColor: '#D4D4D8',
+    minHeight: '15vh',
+    width: '100%',
+    padding: '2rem',
+  },
+   coloredText: {
+    color: "#E14817",
+    fontSize: '1rem',
+  },
+  coloredBox: {
+    backgroundColor: "#fff",
+    height: '2rem',
+    borderRadius: '0.5rem',
+  },
+  spacing: {
+    marginTop: '2rem',
+  },
+  button: {
+    width: '10rem', 
+    backgroundColor: '#E14817',
+    borderRadius: 'var(--border-radius)',
+}
 };

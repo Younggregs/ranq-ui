@@ -7,15 +7,15 @@ const timeRemaining = (endDate: Date) => {
       days: "",
       hours: "",
       minutes: "",
-      seconds: 0
+      seconds: ""
     };
   
     if (difference > 0) {
       timeLeft = {
-        days: `${Math.floor(difference / (1000 * 60 * 60 * 24))}:`,
-        hours: `${Math.floor((difference / (1000 * 60 * 60)) % 24)}:`,
-        minutes: `${Math.floor((difference / 1000 / 60) % 60)}:`,
-        seconds: Math.floor((difference / 1000) % 60)
+        days: `${Math.floor(difference / (1000 * 60 * 60 * 24))}d.`,
+        hours: `${Math.floor((difference / (1000 * 60 * 60)) % 24)}h.`,
+        minutes: `${Math.floor((difference / 1000 / 60) % 60)}m.`,
+        seconds: `${Math.floor((difference / 1000) % 60)}s.`,
       };
     }
   

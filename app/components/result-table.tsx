@@ -5,6 +5,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Grid } from '../lib/mui';
+import bgColor from '../lib/random-color';
 
 function createData(
   contestants: string,
@@ -29,9 +31,9 @@ export default function ResultTable({data}: {data: any}) {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Contestants</TableCell>
-            <TableCell>Position</TableCell>
-            <TableCell>Points</TableCell>
+            <TableCell><b>Contestant</b></TableCell>
+            <TableCell><b>Points</b></TableCell>
+            <TableCell><b>Position</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -41,10 +43,26 @@ export default function ResultTable({data}: {data: any}) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+              >
+                <Grid 
+                  style={{ 
+                        marginRight: '5px',
+                        height: '10px', 
+                        width: '10px',
+                        borderRadius: '50%',
+                        backgroundColor: bgColor(),
+                      }} 
+                />{row.name.toUpperCase()}
+              </Grid>
+              </TableCell>
+              <TableCell>
+                {row.vote_count}
               </TableCell>
               <TableCell>{row.position}</TableCell>
-              <TableCell>{row.vote_count}</TableCell>
             </TableRow>
           ))}
         </TableBody>

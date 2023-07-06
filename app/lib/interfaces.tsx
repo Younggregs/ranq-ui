@@ -1,8 +1,5 @@
 interface TimeLeft {
-    days: string,
-    hours: string,
-    minutes: string,
-    seconds: number
+    [key: string]: string;
 }
 
 
