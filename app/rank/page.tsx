@@ -304,9 +304,9 @@ const styles = {
     backgroundColor: "#fff",
     flexDirection: "column",
     borderRadius: '5px',
-    padding: 2, 
-    margin: '1rem',
+    padding: '1rem',
     width: '100%',
+    marginBottom: '1rem',
   },
   itemContainer: {
     color: "#fff",
@@ -340,8 +340,8 @@ const styles = {
     color: '#000'
   },
   titleCard: {
-    margin: '1rem',
-    padding: '1rem'
+    padding: '2rem',
+    backgroundColor: '#fff',
   },
   titleContainer: {
     backgroundColor: '#D4D4D8',

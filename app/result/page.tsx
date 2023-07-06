@@ -117,7 +117,7 @@ export default function Result() {
                               />
                           </ListItemIcon>
                           <ListItemText
-                              primary={c}
+                              primary={c.toUpperCase()}
                           />
                         </ListItem>
                       ))}
@@ -203,8 +203,8 @@ text: {
   color: '#000'
 },
 titleCard: {
-  margin: '1rem',
-  padding: '1rem'
+  padding: '2rem',
+  backgroundColor: '#fff',
 },
 titleContainer: {
   backgroundColor: '#D4D4D8',
@@ -235,11 +235,12 @@ button: {
   borderRadius: 'var(--border-radius)',
 },
  resultCard: {
-    backgroundColor: "#fff",
-    minHeight: '40vh',
-    width: '100%',
-    padding: '1rem',
-    margin: '1rem',
-    borderRadius: '1rem',
+  backgroundColor: "#fff",
+  minHeight: '40vh',
+  width: '100%',
+  padding: '1rem',
+  marginTop: '1rem',
+  marginBottom: '1rem',
+  borderRadius: '1rem',
  }
 };

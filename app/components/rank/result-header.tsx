@@ -131,13 +131,14 @@ const styles = {
       width: '100%',
     },
     titleContainer1: {
-      backgroundColor: '#D4D4D8',
+      backgroundColor: '#fff',
       minHeight: '15vh',
       width: '100%',
       padding: '2rem',
     },
     coloredBox: {
       backgroundColor: "#fff",
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       height: '2rem',
       borderRadius: '0.5rem',
       color: "#E14817",
