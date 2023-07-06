@@ -37,7 +37,7 @@ export default function Result({data}: {data: any}) {
                     {option.label}
                     </MenuItem>
                 ))}
-                </TextField>
+            </TextField>
             <ResultTable data={JSON.parse(data[type] || '[]')} />
         </Grid>
     )

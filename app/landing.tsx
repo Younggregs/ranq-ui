@@ -59,5 +59,5 @@ const styles = {
   },
   spacing: {
     marginBottom: '1rem',
-  }
+  },
 };

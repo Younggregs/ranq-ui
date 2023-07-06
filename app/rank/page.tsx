@@ -370,5 +370,5 @@ const styles = {
     width: '10rem', 
     backgroundColor: '#E14817',
     borderRadius: 'var(--border-radius)',
-}
+  }
 };

@@ -36,10 +36,8 @@ export default function Countdown ({createdAt, duration, durationS}: {createdAt:
     return (
         <Grid>
             <div>
-                {timerComponents.length ? timerComponents :
-                    <span>
-                        {duration}
-                    </span>
+                {timerComponents.length  ? timerComponents :
+                    window.location.reload()
                 }
             </div>
         </Grid>

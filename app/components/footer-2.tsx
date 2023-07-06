@@ -43,7 +43,8 @@ const styles = {
         width: '90%',
         height: 1,
         backgroundColor: '#D4D4D8',
-        margin: 10
+        marginTop: '1rem',
+        marginBottom: '1rem'
     },
     spacing: {
         margin: 10
@@ -54,6 +55,6 @@ const styles = {
     },
     container: {
         color: '#797B89',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     }
 }
