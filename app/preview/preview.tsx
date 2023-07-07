@@ -38,6 +38,7 @@ export default function Preview({data}: {data: any}) {
     const voters = data?.voters.split(',').map((c: any) => c.trim())
     const duration = data?.duration.split(':').map((c: any) => c.trim())
     const durationS = searchParams?.get('durationS')
+    console.log('data: ', data)
 
     const submit = () => {
         setIsLoading(true);
@@ -49,7 +50,7 @@ export default function Preview({data}: {data: any}) {
             type: data.type,
             voters,
             duration: data.duration,
-            durationS: parseInt(data.durationS || '600'),
+            durationS: data.durationS,
         }
         
         createPoll(data_).then(result => {

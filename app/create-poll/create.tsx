@@ -62,9 +62,9 @@ export default function Create() {
   }
 
   const calculateDurationInSeconds = () => {
-    const daysInSeconds = parseInt(days) * 24 * 60 * 60
-    const hInSeconds = parseInt(h) * 60 * 60
-    const mInSeconds = parseInt(m) * 60
+    const daysInSeconds = (parseInt(days) || 0) * 24 * 60 * 60
+    const hInSeconds = (parseInt(h) || 0) * 60 * 60
+    const mInSeconds = (parseInt(m) || 0) * 60
 
     return daysInSeconds + hInSeconds + mInSeconds
   }
