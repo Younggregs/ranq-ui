@@ -2,6 +2,7 @@ import { Grid } from "@/app/lib/mui"
 import CustomButton from "../button"
 import { East } from "@/app/lib/mui-icon"
 import Icon from "../icons"
+import Link from "next/link"
 
 export default function ContainerHowTo() {
     return(
@@ -60,12 +61,14 @@ export default function ContainerHowTo() {
                 </p>
             </Grid>
 
-            <CustomButton 
-                color="#E14817" 
-                border="1px solid #E14817"
-                title="Create Poll" 
-                Icon={false}
-            />
+            <Link href="/verify-email">
+                <CustomButton 
+                    color="#E14817" 
+                    border="1px solid #E14817"
+                    title="Create Poll" 
+                    Icon={false}
+                />
+            </Link>
 
       </Grid>
     )

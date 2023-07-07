@@ -1,9 +1,9 @@
 import { Grid } from "@/app/lib/mui"
 import CustomButton from "../button"
 import { East, KeyboardArrowRight } from "@/app/lib/mui-icon"
-import Icon from "../icons"
 import Accordion from "../accordion"
 import faqList from "@/app/lib/faq"
+import Link from "next/link"
 
 export default function ContainerFAQ() {
     return(
@@ -83,16 +83,19 @@ export default function ContainerFAQ() {
                     </Grid>
                 </Grid>
             
-                <Grid  
-                    item xs={6}
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    flexDirection="row"
-                >
-                    <p style={styles.text}>Create Poll</p>
-                    <KeyboardArrowRight style={{color: '#000'}} />
-                </Grid>
+                <Link href="/verify-email">
+                    <Grid  
+                        item xs={6}
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        flexDirection="row"
+                    >
+                        <p style={styles.text}>Create Poll</p>
+                        <KeyboardArrowRight style={{color: '#000'}} />
+                    </Grid>
+                </Link>
+
             </Grid>
 
             
