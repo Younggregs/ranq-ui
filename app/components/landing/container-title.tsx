@@ -1,6 +1,7 @@
 import { Grid } from "@/app/lib/mui"
 import CustomButton from "../button"
 import { East } from "@/app/lib/mui-icon"
+import Link from "next/link"
 
 export default function ContainerTitle() {
     return(
@@ -20,19 +21,23 @@ export default function ContainerTitle() {
                 </p>
             </Grid>
 
-            <CustomButton 
-                color="#E14817" 
-                border="1px solid #E14817"
-                title="Create Poll" 
-                Icon={false}
-            />
+            <Link href="/verify-email">
+                <CustomButton 
+                    color="#E14817" 
+                    border="1px solid #E14817"
+                    title="Create Poll" 
+                    Icon={false}
+                />
+            </Link>
 
-            <CustomButton 
-                color="#0F1017" 
-                border="1px solid #fff"
-                title="Rank Poll" 
-                Icon={<East />}
-            />
+            <Link href="/verify-email">
+                <CustomButton 
+                    color="#0F1017" 
+                    border="1px solid #fff"
+                    title="Rank Poll" 
+                    Icon={<East />}
+                />
+            </Link>
 
       </Grid>
     )
