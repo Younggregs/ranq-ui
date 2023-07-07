@@ -17,12 +17,10 @@ export default function VoteEmail() {
     const [email, setEmail] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const submit = () => {
-        console.log("submit");
         setIsLoading(true);
         const data = {
             email,
         }
-        console.log('data', data)
         setIsLoading(false);
       }
     

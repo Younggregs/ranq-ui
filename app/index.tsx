@@ -43,7 +43,7 @@ export default function Index() {
         >
           <p style={styles.title}>Hello {localStorage.getItem('name')},</p>
           <p style={styles.text}>
-            Other temporarily jibber jabber, lorep jitsu.
+          Ranq a poll and invite your friends to vote or monitor trends. You decide.
           </p>
         </Grid>
       </Grid>

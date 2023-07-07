@@ -52,7 +52,7 @@ export default function ContainerFAQ() {
                 style={styles.spacing}
             >
                 <p style={styles.title}>Frequently asked questions</p>
-                <p style={styles.text}>Rank contestants officially and just for fun...</p>
+                <p style={styles.text}>Everything you should know about Ranq</p>
             </Grid>
 
             {faqList.map((faq, index) => (

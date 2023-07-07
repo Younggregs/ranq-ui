@@ -25,7 +25,6 @@ const rows = [
 ];
 
 export default function ResultTable({data}: {data: any}) {
-    console.log('data 3', data)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">

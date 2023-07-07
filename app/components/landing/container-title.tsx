@@ -14,8 +14,10 @@ export default function ContainerTitle() {
             <Grid
                 style={styles.spacing}
             >
-                <p style={styles.title}>Welcome to Rank, Dummy Text and Stuff</p>
-                <p style={styles.text}>Rank contestants officially and just for fun...</p>
+                <p style={styles.title}>Zero-Bias Online Voting</p>
+                <p style={styles.text}>
+                    Transparent polls for all or exclusive access for a few. You decide.
+                </p>
             </Grid>
 
             <CustomButton 

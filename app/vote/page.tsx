@@ -35,7 +35,6 @@ export default function Vote() {
 
   const [res] = useQuery({query: POLL_STATUS, variables: {token}});
   const { data, fetching, error } = res;
-  console.log('data', data)
   const [verifyEmailResult, verifyEmail] = useMutation(CREATE_VOTER);
 
   const submit = async () => {

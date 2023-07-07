@@ -18,7 +18,6 @@ import { FETCH_POLLS } from "../utils/queries";
 export default function History() {   
     const [res] = useQuery({query: FETCH_POLLS});
     const { data, fetching, error } = res;
-    console.log('data', data)
 
   return (
     <main className={stylesMain.main}>

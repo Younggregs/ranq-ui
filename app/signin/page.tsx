@@ -43,7 +43,6 @@ export default function Signup() {
 
   const token = searchParams?.get('token')
   const pollToken = searchParams?.get('poll')
-  console.log('token', token)
 
   const [res] = useQuery({query: VERIFY_EMAIL_TOKEN, variables: {token, type: 'signup_email'}});
 
@@ -53,12 +52,13 @@ export default function Signup() {
   const [loginResult, login] = useMutation(LOGIN);
 
   const submit = async () => {
-    console.log("submit");
     setIsLoading(true);
     const password = data?.verifyEmailToken.rawToken
     const email = data?.verifyEmailToken.email
+
+    const name_ = name || data?.verifyEmailToken?.name
     const data_ = {
-        name,
+        name: name_,
         email,
         password
     }
@@ -70,8 +70,7 @@ export default function Signup() {
         setErrors(res?.errors.message)
       }
       else{
-        console.log('result', result);
-        localStorage.setItem('name', name);
+        localStorage.setItem('name', name_);
         processLogin({ email: email, password})
       }
     });
@@ -79,7 +78,6 @@ export default function Signup() {
   }
 
   const processLogin = async (data: any) => {
-    console.log('data', data);
     login(data).then(result => {
       setIsLoading(false);
       if (result.error) {
@@ -175,7 +173,7 @@ export default function Signup() {
             <Grid>
               <p style={styles.text}>
                 Hello {data?.verifyEmailToken.name}, <br />
-                Welcome back!</p>
+                Pick up right where you left off</p>
             </Grid>
            )}
           

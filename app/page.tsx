@@ -23,7 +23,6 @@ export default function Home() {
             console.error('Oh no!', result.error);
             setIsLoggedIn(false);
           }else{
-            console.log('result', result);
             setIsLoggedIn(true);
           }
         });

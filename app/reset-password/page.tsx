@@ -42,17 +42,14 @@ export default function ResetPassword() {
   const searchParams = useSearchParams()
 
   const token = searchParams?.get('token')
-  console.log('token', token)
 
   const [res] = useQuery({query: VERIFY_EMAIL_TOKEN, variables: {token, type: 'forgot_password_email'}});
 
   const { data, fetching, error } = res;
-  console.log('data: ', data, error)
 
   const [resetPasswordResult, resetPassword] = useMutation(RESET_PASSWORD);
 
   const submit = () => {
-    console.log("submit");
     setIsLoading(true);
     setErrors('')
     const data = {

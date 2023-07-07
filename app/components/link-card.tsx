@@ -28,46 +28,45 @@ export default function LinkCard({type, token, title}: {type: string, token: str
         }, 3000);
         copy(link)
     }
+
+    // abbreviate text if too long
+    const abbreviate = (text: string) => {
+        if (text.length > 25) {
+            return text.slice(0, 25) + '...'
+        }   
+        return text
+    }
+
+
     return (
         <Grid
-        container
-        direction="column"
-        sx={{ m: 2, width: cardWidth }}
-        style={styles.card}
-   >
+            container
+            direction="column"
+            sx={{ m: 2, width: cardWidth}}
+            style={styles.card}
+        >
        {type.toLowerCase() === 'private' ? (
            <div>
-               <h4>Links Sent!</h4>
-               <p>Voting links have been sent to each voter email</p>
+               <p style={styles.title}>Links Sent!</p>
+               <p style={styles.text}>Voting links have been sent to each voter email</p>
            </div>
        ): (
-           <div>
-               <h4>Share vote link with voters</h4>
-               <Grid  
-                   container
-                   direction="row" 
-                   style={styles.linkCard}  
-                   justifyContent={"space-between"} 
-                   
-               >
-                   <div style={styles.linkField}>
-                       <Typography variant="body2" color="text.secondary">
-                          {link}
-                       </Typography>
-                   </div>
-                   <Button  
-                       variant="contained" 
-                       color="primary" 
-                       onClick={() => copyLink()}
-                   >
-                       {!copied ? 'Copy' : 'Copied' }  
-                   </Button>
-               </Grid>
+           <Grid>
+                <Grid
+                    container
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <p style={styles.title}>Share Poll</p>
+                    <Grid style={styles.line} />
+                </Grid>
+               
                <Grid  
                    container
                    direction="row" 
                    justifyContent={"space-between"} 
-                   style={{marginTop: 5}}         
+                   style={{marginTop: '1rem', marginBottom: '1rem', padding: 2}}         
                >
                    <TwitterShareButton
                        url={link}
@@ -101,7 +100,41 @@ export default function LinkCard({type, token, title}: {type: string, token: str
                    </TelegramShareButton>
                </Grid>
 
-           </div>
+               <Grid style={styles.line} />
+               <Grid  
+                   container
+                   direction="row"
+               >
+                   <Grid 
+                        container
+                        direction="row"
+                        alignItems="center"
+                        style={styles.linkField}
+                        item 
+                        xs={9}
+                    >
+                       <p style={styles.text}>
+                          {abbreviate(link)}
+                       </p>
+                   </Grid>
+
+                    <Grid
+                        container
+                        item 
+                        xs={3}
+                    >
+                        <Button  
+                                variant="contained" 
+                                color="primary" 
+                                style={{margin: 2, color: '#000', backgroundColor: '#fff'}}
+                                onClick={() => copyLink()}
+                        >
+                            {!copied ? 'Copy' : 'Copied' }  
+                        </Button>
+                    </Grid>
+               </Grid>
+
+           </Grid>
            
        )}
    </Grid>
@@ -114,15 +147,25 @@ const styles = {
       backgroundColor: "#fff",
     },
     card: {
-      padding: "1rem",
       border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
       borderRadius: "var(--border-radius)",
+    }, 
+    linkField: {
+        padding: 2,
     },
-   linkCard: {
-      border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
-      marginTop: 5,
-   }, 
-   linkField: {
-      padding: 2,
-   }
-  };
+    title: {
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        color: '#505050',
+        margin: '1rem',
+    },
+    text: {
+        fontSize: '1rem',
+        color: '#505050',
+        },
+    line: {
+        width: '100%',
+        height: '1px',
+        backgroundColor: '#D4D4D8',
+     },
+};

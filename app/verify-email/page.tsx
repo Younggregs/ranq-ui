@@ -30,12 +30,10 @@ export default function Signup() {
   const [isLoading, setIsLoading] = React.useState(false);
   const searchParams = useSearchParams()
   const token = searchParams?.get('token')
-  console.log('token', token)
 
   const [verifyEmailResult, verifyEmail] = useMutation(VERIFY_EMAIL);
 
   const submit = async () => {
-    console.log("submit");
     setIsLoading(true);
     const data = {
       email,
@@ -47,7 +45,6 @@ export default function Signup() {
       if (result.error) {
         console.error("Oh no!", result.error);
       }
-      console.log("result", result);
       setEmailSent(true);
     });
     

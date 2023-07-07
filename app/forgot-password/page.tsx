@@ -22,7 +22,6 @@ export default function ForgotPassword() {
   const [verifyEmailResult, verifyEmail] = useMutation(VERIFY_EMAIL);
 
   const submit = async () => {
-    console.log("submit");
     setIsLoading(true);
     const data = {
       email,
@@ -33,7 +32,6 @@ export default function ForgotPassword() {
       if (result.error) {
         console.error("Oh no!", result.error);
       }
-      console.log("result", result);
       setEmailSent(true);
     });
     

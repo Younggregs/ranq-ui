@@ -41,7 +41,6 @@ export default function MenuModal() {
   };
 
     const handleLogout = () => {
-        console.log('logging out');
         localStorage.clear();
         window.location.reload();
     }

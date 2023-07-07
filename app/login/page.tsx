@@ -48,7 +48,6 @@ export default function Login() {
     login(data).then(result => {
       setIsLoading(false);
       setErrors('')
-      console.log('result', result)
       if (result.error) {
         setErrors("Invalid login details")
       }else{

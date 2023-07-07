@@ -23,23 +23,10 @@ export default function ContainerFeature() {
 
             <Grid>
                 <p style={styles.title2}>
-                    Dummy text liked by dummies for dummies
+                Open. Fair. Confidential.
                 </p>
                 <p style={styles.text}>
-                    Dummy text liked by dummies for dummies
-                    Dummy text liked by dummies for dummies
-                </p>
-            </Grid>
-
-            <Grid
-                container
-                direction="row"
-                alignItems="center"
-                style={styles.spacing}
-            >
-                <Icon name="tickCircle"/>
-                <p style={styles.text}>
-                    Dummy feature text here... here... here...
+                Ranq is a free poll maker that lets you generate shareable polls in seconds.
                 </p>
             </Grid>
 
@@ -51,7 +38,7 @@ export default function ContainerFeature() {
             >
                 <Icon name="tickCircle"/>
                 <p style={styles.text}>
-                    Dummy feature text here... here... here...
+                One Person, One Vote
                 </p>
             </Grid>
 
@@ -63,7 +50,7 @@ export default function ContainerFeature() {
             >
                 <Icon name="tickCircle"/>
                 <p style={styles.text}>
-                    Dummy feature text here... here... here...
+                Popular or Ranked Voting Styles
                 </p>
             </Grid>
 
@@ -75,7 +62,19 @@ export default function ContainerFeature() {
             >
                 <Icon name="tickCircle"/>
                 <p style={styles.text}>
-                    Dummy feature text here... here... here...
+                Public or Invite-Only Access
+                </p>
+            </Grid>
+
+            <Grid
+                container
+                direction="row"
+                alignItems="center"
+                style={styles.spacing}
+            >
+                <Icon name="tickCircle"/>
+                <p style={styles.text}>
+                Live Analytics
                 </p>
             </Grid>
 

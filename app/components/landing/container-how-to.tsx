@@ -26,10 +26,9 @@ export default function ContainerHowTo() {
                 style={styles.spacing}
             >
                 <Icon name="step1" size={50}/>
-                <p style={styles.title}>Step one</p>
+                <p style={styles.title2}>Create</p>
                 <p style={styles.text}>
-                    Create a poll, dummy text to be replaced
-                    Create a poll, dummy text to be replaced
+                Sign up to generate a new popular or ranked poll in seconds
                 </p>
             </Grid>
 
@@ -41,10 +40,9 @@ export default function ContainerHowTo() {
                 style={styles.spacing}
             >
                 <Icon name="step2" size={50}/>
-                <p style={styles.title}>Step two</p>
+                <p style={styles.title2}>Poll</p>
                 <p style={styles.text}>
-                    Create a poll, dummy text to be replaced
-                    Create a poll, dummy text to be replaced
+                Ranq up to 20 options and monitor insights in real-time
                 </p>
             </Grid>
 
@@ -56,10 +54,9 @@ export default function ContainerHowTo() {
                 style={styles.spacing}
             >
                 <Icon name="step3" size={50}/>
-                <p style={styles.title}>Step three</p>
+                <p style={styles.title2}>Share</p>
                 <p style={styles.text}>
-                    Create a poll, dummy text to be replaced
-                    Create a poll, dummy text to be replaced
+                Spread the word to everyone, or curate a closed circle of voters
                 </p>
             </Grid>
 
@@ -83,6 +80,10 @@ const styles = {
     }, 
     title: {
         fontSize: '2rem',
+        color: '#35414B',
+    },
+    title2:{
+        fontSize: '1.5rem',
         color: '#35414B',
     },
     text: {

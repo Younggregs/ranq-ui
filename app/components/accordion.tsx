@@ -64,7 +64,7 @@ const styles = {
     },
     titleBox: {
         width: '20rem',
-        height: '5rem',
+        minHeight: '5rem',
         border: '1px solid #000',
         padding: '1rem',
         cursor: 'pointer',

@@ -32,7 +32,6 @@ export default function Result() {
     const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
 
     const { data, fetching, error } = res;
-    console.log('data', data)
 
   return (
     <main className={stylesMain.main}>

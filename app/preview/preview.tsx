@@ -31,14 +31,9 @@ export default function Preview({data}: {data: any}) {
     const router = useRouter()
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const title = searchParams?.get('title')
-    const description = searchParams?.get('description')
     const contestants = data?.contestants.split(',').map((c: any) => c.trim())
-    const type = searchParams?.get('type')
     const voters = data?.voters.split(',').map((c: any) => c.trim())
     const duration = data?.duration.split(':').map((c: any) => c.trim())
-    const durationS = searchParams?.get('durationS')
-    console.log('data: ', data)
 
     const submit = () => {
         setIsLoading(true);
@@ -58,7 +53,6 @@ export default function Preview({data}: {data: any}) {
             if (result.error) {
               console.error('Oh no!', result.error);
             }
-            console.log('result', result);
             router.push(`/poll?id=${result.data.createPoll.poll.token}`)
           });
         

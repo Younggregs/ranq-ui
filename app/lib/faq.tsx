@@ -1,23 +1,39 @@
 const faqList = [
     {
-        title: "What is a poll?",
-        message: "A poll is a question that you want to ask your friends, family, or colleagues. It can be a simple question like 'What is your favorite color?' or a more complex one like 'What is the best way to improve our product?'"
+        title: "What is Ranq?",
+        message: "Ranq is a web app that lets you generate polls in seconds and provides live results for up to a week."
     },
     {
-        title: "How do you get result?",
-        message: "A poll is a question that you want to ask your friends, family, or colleagues. It can be a simple question like 'What is your favorite color?' or a more complex one like 'What is the best way to improve our product?'"
+        title: "What voting methods does Ranq support?",
+        message: "Ranq supports two voting methods: popular voting, where you select your most preferred option, and ranked voting, where you prioritize your choices in order of preference."
     },
     {
-        title: "What happens when I share a poll?",
-        message: "A poll is a question that you want to ask your friends, family, or colleagues. It can be a simple question like 'What is your favorite color?' or a more complex one like 'What is the best way to improve our product?'"
+        title: "How can I create a poll on Ranq?",
+        message: "To create a poll on Ranq, register and verify your email, log in, enter the poll title and options, and choose public or private publishing.'"
     },
     {
-        title: "How fair is the voting process?",
-        message: "A poll is a question that you want to ask your friends, family, or colleagues. It can be a simple question like 'What is your favorite color?' or a more complex one like 'What is the best way to improve our product?'"
+        title: "What is the difference between a public poll and a private poll?",
+        message: "Public polls are visible to everyone, and a registered Ranqr can vote and create polls. Private polls, however, require email access to vote."
     },
     {
-        title: "How do multiple results work?",
-        message: "A poll is a question that you want to ask your friends, family, or colleagues. It can be a simple question like 'What is your favorite color?' or a more complex one like 'What is the best way to improve our product?'"
+        title: "How long can a Ranq poll run?",
+        message: "Polls can run for up to one week before closing. The results will be on display once the poll is closed."
+    },
+    {
+        title: "Can I add photos and videos to my polls?",
+        message: "Currently, Ranq supports only text-based options for polls"
+    },
+    {
+        title: "How do I share my poll on social media?",
+        message: "You can share a poll on social media platforms by copying the poll's URL and pasting it into your social media post or sharing it directly from the Ranq platform."
+    },
+    {
+        title: "Can Ranq turn a poll into a chart?",
+        message: "Yes, Ranq generates pie charts from poll results."
+    },
+    {
+        title: "Is Ranq free?",
+        message: "Absolutely. You only have to register to vote or create polls."
     }
 ]
 

@@ -31,15 +31,12 @@ export default function Rank() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const token = searchParams?.get('token')
-    console.log('id', token)
 
     const [res_status] = useQuery({query: VOTER_STATUS, variables: {token}});
     const { data: data_, fetching: fetching_, error: error_ } = res_status;
-    console.log('data_', data_)
 
     const [res_rank_poll] = useQuery({query: FETCH_POLL_BY_ID, variables: {id: token}});
     const { data, fetching, error } = res_rank_poll;
-    console.log('data', data)
 
     React.useEffect(() => {
         if (data?.pollById?.contestants)
