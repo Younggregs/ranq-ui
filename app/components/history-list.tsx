@@ -6,7 +6,7 @@ import CustomButton from "./button";
 import { East } from "@mui/icons-material";
 
 export default function HistoryList ({data, is_public=false}: {data: any[], is_public: boolean}) {
-    const link = is_public ? '/' : '/polls/'
+    const link = is_public ? '/' : '/poll/'
     return (
         <Grid
             container
