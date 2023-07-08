@@ -53,7 +53,7 @@ export default function Preview({data}: {data: any}) {
             if (result.error) {
               console.error('Oh no!', result.error);
             }
-            router.push(`/poll?id=${result.data.createPoll.poll.token}`)
+            router.push(`/poll/${result.data.createPoll.poll.token}`)
           });
         
         

@@ -23,14 +23,13 @@ import RankHeader from "../components/rank/header";
 import Icon from "../components/icons";
 import bgColor from "../lib/random-color";
 
-export default function Rank() {   
+export default function RankPage({ params }: { params: { token: string } }) {   
     const [createVoteResult, createVote] = useMutation(CREATE_VOTE);
     const [isLoading, setIsLoading] = React.useState(false);
     const [ranked, setRanked] = React.useState([]);
     const [voted, setVoted] = React.useState(false);
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const token = searchParams?.get('token')
+    const router = useRouter();
+    const token = params.token
 
     const [res_status] = useQuery({query: VOTER_STATUS, variables: {token}});
     const { data: data_, fetching: fetching_, error: error_ } = res_status;

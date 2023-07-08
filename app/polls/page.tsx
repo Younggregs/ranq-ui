@@ -51,7 +51,7 @@ export default function Polls() {
           <Grid
             container
           >
-            <HistoryList data={data?.publicPolls?.edges || []}/>
+            <HistoryList data={data?.publicPolls?.edges || []} is_public={true}/>
           </Grid>
         )}
 

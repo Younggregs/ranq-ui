@@ -2,23 +2,13 @@
 import * as React from "react";
 import styles_ from "../page.module.css";
 import {
-  Box,
   TextField,
-  FormControl,
-  InputLabel,
-  FilledInput,
-  InputAdornment,
-  IconButton,
   Grid,
   Button,
 } from "../lib/mui";
-import { Visibility, VisibilityOff } from "../lib/mui-icon";
-import Link from "next/link";
-import Title from "../components/title";
-import FormHeader from "../components/form-header";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
-import { useMutation, cacheExchange, fetchExchange } from "urql";
+import { useMutation } from "urql";
 import { VERIFY_EMAIL } from "../utils/mutations";
 import { useSearchParams } from "next/navigation";
 import Footer2 from "../components/footer-2";

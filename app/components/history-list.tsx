@@ -1,12 +1,12 @@
-import { cardWidth } from "../lib/constants"
 import { Grid } from "../lib/mui"
 import Link from 'next/link';
 import Icon from "./icons";
 import Countdown from "./countdown";
 import CustomButton from "./button";
-import { ArrowRight, East } from "@mui/icons-material";
+import { East } from "@mui/icons-material";
 
-export default function HistoryList ({data}: {data: any[]}) {
+export default function HistoryList ({data, is_public=false}: {data: any[], is_public: boolean}) {
+    const link = is_public ? '/' : '/polls/'
     return (
         <Grid
             container
@@ -75,7 +75,7 @@ export default function HistoryList ({data}: {data: any[]}) {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <Link href={`/poll?id=${item?.node.token}`}>
+                    <Link href={link + item?.node.token}>
                         <CustomButton 
                             border="1px solid #E14817"
                             title="View poll" 

@@ -43,7 +43,7 @@ export default function History() {
           <Grid
             container
           >
-            <HistoryList data={data?.polls?.edges || []}/>
+            <HistoryList data={data?.polls?.edges || []} is_public={false}/>
           </Grid>
         )}
 

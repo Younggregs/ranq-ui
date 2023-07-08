@@ -19,7 +19,7 @@ import { uiUrl } from "../lib/constants";
 
 export default function LinkCard({type, token, title}: {type: string, token: string, title: string}) {
     const [copied, setCopied] = React.useState(false);   
-    const link = `${uiUrl}/rank?token=${token}`
+    const link = `${uiUrl}/${token}`
 
     const copyLink = () => {
         setCopied(true);
