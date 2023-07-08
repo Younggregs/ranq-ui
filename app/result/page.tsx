@@ -24,6 +24,7 @@ import MenuBar from "../components/menu-bar";
 import RankHeader from "../components/rank/header";
 import bgColor from "../lib/random-color";
 import ResultHeader from "../components/rank/result-header";
+import LinkCard from "../components/link-card";
 
 export default function Result() {   
     const searchParams = useSearchParams()
@@ -92,6 +93,12 @@ export default function Result() {
               >
                 
                 <h4 style={{ textAlign: 'center'}}>Poll is Ongoing</h4>
+
+                <LinkCard 
+                    type={data?.pollById.type} 
+                    token={data?.pollById.token} 
+                    title={data?.pollById.title} 
+                />
 
                 <Grid
                   container

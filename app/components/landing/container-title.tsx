@@ -30,7 +30,7 @@ export default function ContainerTitle() {
                 />
             </Link>
 
-            <Link href="/verify-email">
+            <Link href="/polls">
                 <CustomButton 
                     color="#0F1017" 
                     border="1px solid #fff"

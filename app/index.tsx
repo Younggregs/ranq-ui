@@ -95,41 +95,6 @@ export default function Index() {
         <History />
       )}
 
-      {/*
-      <Grid
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Link href="/create-poll">
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ m:3, width: cardWidth }}
-            style={styles.card}
-          >
-              <h2>
-                  Create Poll
-              </h2>
-          </Grid>
-        </Link>
-        <Link href="/history">
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ m: 3, width: cardWidth }}
-            style={styles.card}
-          >
-              <h2>
-                  History
-              </h2>
-          </Grid>
-        </Link>
-      </Grid>
-      */}
       <Grid
         container
       >

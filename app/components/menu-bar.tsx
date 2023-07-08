@@ -17,8 +17,13 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Icon from './icons';
 import { Grid } from '../lib/mui';
 import MenuModal from './menu-modal';
+import Link from 'next/link';
+import resolveLink from '../lib/resolve-link';
+import user from '../lib/user-details';
 
-const pages = ['Home', 'Create Poll', 'Rank Poll', 'FAQs', 'Sign Out'];
+const pages = ['Home', 'Rank Poll'];
+const isLoggedIn = user().token;
+pages.push(isLoggedIn ? 'Sign Out' : 'Sign In');
 
 function MenuBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -77,11 +82,6 @@ function MenuBar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
               </Menu>
             </Box>
             <Grid
@@ -90,13 +90,14 @@ function MenuBar() {
             </Grid>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
+                <Link key={page} href={resolveLink(page)}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page}
+                  </Button>
+                </Link>
               ))}
             </Box>
 

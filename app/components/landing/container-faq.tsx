@@ -83,18 +83,25 @@ export default function ContainerFAQ() {
                     </Grid>
                 </Grid>
             
-                <Link href="/verify-email">
-                    <Grid  
-                        item xs={6}
+                
+                <Grid  
+                    item xs={6}
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDirection="row"
+                >
+                    <Link href="/verify-email">
+                    <Grid
                         container
                         justifyContent="center"
                         alignItems="center"
-                        flexDirection="row"
                     >
                         <p style={styles.text}>Create Poll</p>
                         <KeyboardArrowRight style={{color: '#000'}} />
                     </Grid>
-                </Link>
+                    </Link>
+                </Grid>
 
             </Grid>
 
@@ -158,5 +165,5 @@ const styles = {
         backgroundColor: '#FAE0E1', 
         padding: '1rem',
         borderRadius: 'var(--border-radius)',
-    }
+    },
 }

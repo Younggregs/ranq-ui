@@ -16,6 +16,9 @@ import { Grid, ListItemButton, ListItemIcon } from '../lib/mui';
 import Icon from './icons';
 import Logo from './logo';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import resolveLink from '../lib/resolve-link';
+import user from '../lib/user-details';
 
 
 const Transition = React.forwardRef(function Transition(
@@ -29,7 +32,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function MenuModal() {
   const [open, setOpen] = React.useState(false);
-  const isLoggedIn = localStorage.getItem('token');
+  const isLoggedIn = user().token
   const router = useRouter()
 
   const handleClickOpen = () => {
@@ -93,12 +96,14 @@ export default function MenuModal() {
                 >
                     <Grid item xs={12}>
                         <List>
-                            {['Home', 'Create Poll', 'Rank Poll', 'FAQs'].map((text, index) => (
+                            {['Home', 'Rank Poll'].map((text, index) => (
                                 <ListItem key={text}>
                                     <ListItemButton>
+                                        <Link href={resolveLink(text)}>
                                         <ListItemText 
                                             sx={styles.listFont} 
                                             primary={text} />
+                                        </Link>
                                     </ListItemButton>
                                 </ListItem>
                             ))}

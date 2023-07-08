@@ -2,11 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Grid } from '../lib/mui'
 import { East } from '@mui/icons-material'
+import { text } from 'stream/consumers'
 
 export default function CustomButton(
-    {color, border, width='20rem', title, Icon}: 
+    {color, textColor='#fff', border, width='20rem', title, Icon}: 
     {
-        color?: string, 
+        color?: string,
+        textColor?: string, 
         border?: string, 
         width?: string,
         title: string, 
@@ -18,7 +20,7 @@ export default function CustomButton(
             direction="row"
             justifyContent="center"
             alignItems="center"
-            sx={{ m:2, width: width, backgroundColor: color, border: border}}
+            sx={{ m:2, width: width, backgroundColor: color, border: border, color: textColor}}
             style={styles.card}
           >
               <h3 style={styles.title}>
@@ -33,9 +35,9 @@ const styles = {
     card: {
         padding: "1rem",
         borderRadius: "var(--border-radius)",
+        cursor: 'pointer',
     },
     title: {
-        color: '#fff',
         padding: '0 1rem 0 0',
     } 
 }

@@ -34,14 +34,73 @@ const FETCH_POLL_BY_ID = gql`
 `;
 
 const FETCH_POLLS = gql`
-  query {
-    polls{
-      id,
-      title,
-      type,
-      status, 
-      token,
-      votes,
+  query Polls($search: String){
+    polls(
+        filter: {
+            or: [
+                {token: {icontains: $search}}
+                {title: {icontains: $search}}
+                {description: {icontains: $search}}
+            ]
+        }
+        ){
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        }
+        edges {
+        cursor
+        node {
+          id,
+          title,
+          description,
+          contestants,
+          type,
+          status, 
+          token,
+          duration,
+          durationS,
+          createdAt
+        }
+        }
+    }
+  }
+`;
+
+const FETCH_PUBLIC_POLLS = gql`
+  query PublicPolls($search: String){
+    publicPolls(
+        filter: {
+            or: [
+                {token: {icontains: $search}}
+                {title: {icontains: $search}}
+                {description: {icontains: $search}}
+            ]
+        }
+        ){
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        }
+        edges {
+        cursor
+        node {
+          id,
+          title,
+          description,
+          contestants,
+          type,
+          status, 
+          token,
+          duration,
+          durationS,
+          createdAt
+        }
+        }
     }
   }
 `;
@@ -119,5 +178,6 @@ export {
     FETCH_RANK_POLL,
     POLL_RESULT,
     POLL_STATUS,
-    VOTER_STATUS
+    VOTER_STATUS,
+    FETCH_PUBLIC_POLLS
 }

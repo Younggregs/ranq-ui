@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import { withUrqlClient } from 'next-urql';
 import { cacheExchange, fetchExchange } from 'urql';
 import { url } from "./lib/constants";
-
+import user from './lib/user-details';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,7 +34,7 @@ export default withUrqlClient(
       let token = ''
       if (typeof window !== 'undefined') {
         // Perform localStorage action
-        token = localStorage.getItem('token') || ''
+        token = user().token
       }
       return {
         headers: { authorization: token ? `JWT ${token}` : '' },
