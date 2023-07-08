@@ -19,7 +19,10 @@ export default function HistoryList ({data}: {data: any[]}) {
                 >
                     <p style={styles.title}>{item?.node.title}</p>
                     <p style={styles.text}>{item?.node.description}</p>
-
+                    <br/>
+                    <p style={styles.text}>Poll token(code): 
+                        <b> {item?.node.token}</b>
+                    </p>
                     <Grid
                         container
                         direction="column"
@@ -93,15 +96,16 @@ const styles = {
     container: {
         backgroundColor: "#fff",
         border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
-        borderRadius: "0.5px",
+        borderRadius: "1rem",
         padding: "1rem",
-        minHeight: "7rem",
+        minHeight: "10rem",
         margin: '3px',
         marginTop: '1rem',
         marginBottom: '1rem',
+        width: '22rem'
     },
     title: {
-        fontSize: '1rem',
+        fontSize: '1.5rem',
         fontWeight: 'bold',
         color: '#000',
         margin: '0',

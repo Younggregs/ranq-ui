@@ -25,8 +25,25 @@ export default function Polls() {
 
       <Title />
 
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+      >
+        <TextField 
+          sx={{ m: 1, width: cardWidth }} 
+          id="search" 
+          label="Search" 
+          variant="outlined" 
+          helperText="Search by poll token(code), title or description"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </Grid>
+
       <Grid>
-        {fetching && (
+        {fetching && !search && (
           <ActivityIndicator />
         )}
 
@@ -34,21 +51,6 @@ export default function Polls() {
           <Grid
             container
           >
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              direction="column"
-            >
-              <TextField 
-                sx={{ m: 1, width: cardWidth }} 
-                id="search" 
-                label="Search" 
-                variant="outlined" 
-                helperText="Search by poll token(code), title or description"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Grid>
             <HistoryList data={data?.publicPolls?.edges || []}/>
           </Grid>
         )}
@@ -82,13 +84,6 @@ const styles = {
     padding: "1rem",
     border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
     borderRadius: "var(--border-radius)",
-  }, 
-  containerTitle: {
-    backgroundColor: '#0F1017',
-    minHeight: '30rem',
-    color: '#fff',
-    padding: '0 1rem',
-    textAlign: 'center',
   }, 
   title: {
     fontSize: '3rem',

@@ -43,7 +43,9 @@ export default function Index() {
         >
           <p style={styles.title}>Hello {localStorage.getItem('name')},</p>
           <p style={styles.text}>
-          Ranq a poll and invite your friends to vote or monitor trends. You decide.
+          Ranq a poll and invite your friends to vote or monitor trends. 
+          <br />
+          You decide.
           </p>
         </Grid>
       </Grid>

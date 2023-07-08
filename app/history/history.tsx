@@ -17,8 +17,25 @@ export default function History() {
   return (
     <main className={stylesMain.main}>
 
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+      >
+        <TextField 
+          sx={{ m: 1, width: cardWidth }} 
+          id="search" 
+          label="Search" 
+          variant="outlined" 
+          helperText="Search by poll token(code), title or description"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </Grid>
+
       <Grid>
-        {fetching && (
+        {fetching && !search && (
           <ActivityIndicator />
         )}
 
@@ -26,21 +43,6 @@ export default function History() {
           <Grid
             container
           >
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              direction="column"
-            >
-              <TextField 
-                sx={{ m: 1, width: cardWidth }} 
-                id="search" 
-                label="Search" 
-                variant="outlined" 
-                helperText="Search by poll token(code), title or description"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Grid>
             <HistoryList data={data?.polls?.edges || []}/>
           </Grid>
         )}
