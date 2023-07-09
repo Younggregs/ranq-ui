@@ -33,7 +33,7 @@ export default function Poll({ params }: { params: { token: string } }) {
         <MenuBar />
       </Grid>
 
-      <Grid
+      {/* <Grid
         style={styles.titleContainer}
       >
         <Grid 
@@ -47,7 +47,7 @@ export default function Poll({ params }: { params: { token: string } }) {
             <KeyboardArrowRight />
             <p style={styles.text}>{data?.pollById.title}</p>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {fetching ? (
           <Grid

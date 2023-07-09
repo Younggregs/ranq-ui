@@ -82,7 +82,7 @@ export default function RankPage({ params }: { params: { token: string } }) {
         <MenuBar />
       </Grid>
 
-      <Grid
+      {/* <Grid
         style={styles.titleContainer}
       >
         <Grid 
@@ -96,7 +96,7 @@ export default function RankPage({ params }: { params: { token: string } }) {
             <KeyboardArrowRight />
             <p style={styles.text}>{data_?.voterStatus.title}</p>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       
 
@@ -246,7 +246,7 @@ export default function RankPage({ params }: { params: { token: string } }) {
                               style={styles.itemContainer} 
                               sx={{backgroundColor: bgColor()}}
                             >
-                              <p>{item.toUpperCase()}</p>
+                              <p>{index + 1}. {item.toUpperCase()}</p>
                               <Icon name="drag" />
                             </Grid>
                           </div>
