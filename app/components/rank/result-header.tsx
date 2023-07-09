@@ -17,12 +17,12 @@ export default function ResultHeader({data}: {data: any}) {
                   style={styles.spacing}
                 >
                   <Grid
-                   style={styles.coloredBox}
-                   container
-                   justifyContent="center"
-                   alignItems="center"
-                   item
-                   xs={5}
+                    style={styles.coloredBox}
+                    container
+                    alignItems="center"
+                    justifyContent="center"
+                    item
+                    xs={5}
                   >
                     {data?.pollById?.status.toLowerCase() === 'ongoing' ? (
                     <Countdown
@@ -46,12 +46,12 @@ export default function ResultHeader({data}: {data: any}) {
                   </Grid>
                   
                   <Grid
-                   style={styles.coloredBox}
-                   container
-                   justifyContent="center"
-                   alignItems="center"
-                   item
-                   xs={5}
+                    style={styles.coloredBox}
+                    container
+                    alignItems="center"
+                    justifyContent="center"
+                    item
+                    xs={5}
                   >
                      <Grid
                         container
@@ -134,15 +134,17 @@ const styles = {
       backgroundColor: '#fff',
       minHeight: '15vh',
       width: '100%',
-      padding: '2rem',
+      padding: '1rem',
     },
     coloredBox: {
       backgroundColor: "#fff",
       boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-      height: '2rem',
+      minHeight: '2rem',
       borderRadius: '0.5rem',
       color: "#E14817",
       fontSize: '1rem',
+      width: '100%',
+      margin: '0.5rem',
     },
     spacing: {
       marginTop: '2rem',
