@@ -28,6 +28,7 @@ const FETCH_POLL_BY_ID = gql`
             popularVote,
             rankRaiseBar
         },
+        voted,
         createdAt,
       }
     }

@@ -1,36 +1,35 @@
 "use client";
 import * as React from "react";
-import stylesMain from "../page.module.css";
+import stylesMain from "../../page.module.css";
 import {
   Grid,
   Button,
-} from "../lib/mui";
-import Title from "../components/title";
-import FormHeader from "../components/form-header";
-import ActivityIndicator from "../components/activity-indicator";
-import { cardWidth } from "../lib/constants";
+} from "../../lib/mui";
+import Title from "../../components/title";
+import FormHeader from "../../components/form-header";
+import ActivityIndicator from "../../components/activity-indicator";
+import { cardWidth } from "../../lib/constants";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useQuery, useMutation } from 'urql';
 import { useRouter, useSearchParams } from 'next/navigation'
-import { FETCH_POLL_BY_ID, FETCH_RANK_POLL, VOTER_STATUS }from "../utils/queries";
-import { CREATE_VOTE }from "../utils/mutations";
+import { FETCH_POLL_BY_ID, FETCH_RANK_POLL, VOTER_STATUS }from "../../utils/queries";
+import { CREATE_VOTE }from "../../utils/mutations";
 import Link from "next/link";
-import Footer1 from "../components/footer-1";
-import Footer2 from "../components/footer-2";
-import MenuBar from "../components/menu-bar";
-import { KeyboardArrowRight } from "@mui/icons-material";
-import RankHeader from "../components/rank/header";
-import Icon from "../components/icons";
-import bgColor from "../lib/random-color";
+import Footer1 from "../../components/footer-1";
+import Footer2 from "../../components/footer-2";
+import MenuBar from "../../components/menu-bar";
+import { KeyboardArrowRight, Margin, StayPrimaryLandscapeSharp } from "@mui/icons-material";
+import RankHeader from "../../components/rank/header";
+import Icon from "../../components/icons";
+import bgColor from "../../lib/random-color";
 
-export default function Rank() {   
+export default function RankPage({ params }: { params: { token: string } }) {   
     const [createVoteResult, createVote] = useMutation(CREATE_VOTE);
     const [isLoading, setIsLoading] = React.useState(false);
     const [ranked, setRanked] = React.useState([]);
     const [voted, setVoted] = React.useState(false);
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const token = searchParams?.get('token')
+    const router = useRouter();
+    const token = params.token
 
     const [res_status] = useQuery({query: VOTER_STATUS, variables: {token}});
     const { data: data_, fetching: fetching_, error: error_ } = res_status;
@@ -114,7 +113,7 @@ export default function Rank() {
         >
             <h4>You have voted!</h4>
             <p>Your vote has been recorded successfully, thank you.</p>
-            <p>Continue to poll
+            <p>Continue to poll here
                 <Link href={`/${token}`}>
                   <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
                 </Link>
@@ -171,7 +170,7 @@ export default function Rank() {
                 <h2>Hello, Poll has ended.</h2>
                 <p>Voting has ended on this poll</p>
                 <p>Title: {data_?.voterStatus.title} </p>
-                <p>Continue to poll
+                <p>Check the result
                   <Link href={`/${token}`}>
                     <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
                   </Link>

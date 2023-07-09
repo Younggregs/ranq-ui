@@ -3,78 +3,29 @@ import * as React from "react";
 import stylesMain from "../page.module.css";
 import {
   Grid,
-  Button,
+  List,
+  ListItemIcon,
+  ListItem,
+  ListItemText,
 } from "../lib/mui";
-import Title from "../components/title";
-import FormHeader from "../components/form-header";
+import { East, KeyboardArrowRight } from "../lib/mui-icon";
 import ActivityIndicator from "../components/activity-indicator";
 import { cardWidth } from "../lib/constants";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useQuery, useMutation } from 'urql';
-import { useRouter, useSearchParams } from 'next/navigation'
-import { FETCH_POLL_BY_ID, FETCH_RANK_POLL, VOTER_STATUS }from "../utils/queries";
-import { CREATE_VOTE }from "../utils/mutations";
-import Link from "next/link";
-import Footer1 from "../components/footer-1";
+import LinkCard from "../components/link-card";
+import ResultCard from "../components/result-card";
+import { useQuery } from 'urql';
+import { FETCH_POLL_BY_ID }from "../utils/queries";
 import Footer2 from "../components/footer-2";
 import MenuBar from "../components/menu-bar";
-import { KeyboardArrowRight, Margin, StayPrimaryLandscapeSharp } from "@mui/icons-material";
-import RankHeader from "../components/rank/header";
-import Icon from "../components/icons";
+import ResultHeader from "../components/rank/result-header";
 import bgColor from "../lib/random-color";
+import CustomButton from "../components/button";
+import Link from "next/link";
 
-export default function RankPage({ params }: { params: { token: string } }) {   
-    const [createVoteResult, createVote] = useMutation(CREATE_VOTE);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [ranked, setRanked] = React.useState([]);
-    const [voted, setVoted] = React.useState(false);
-    const router = useRouter();
-    const token = params.token
-
-    const [res_status] = useQuery({query: VOTER_STATUS, variables: {token}});
-    const { data: data_, fetching: fetching_, error: error_ } = res_status;
-
-    const [res_rank_poll] = useQuery({query: FETCH_POLL_BY_ID, variables: {id: token}});
-    const { data, fetching, error } = res_rank_poll;
-
-    React.useEffect(() => {
-        if (data?.pollById?.contestants)
-          setRanked(data?.pollById.contestants);
-    }, [data]);
-
-    // Function to update list on drop
-    const handleDrop = (droppedItem: any) => {
-      // Ignore drop outside droppable container
-      if (!droppedItem.destination) return;
-      var updatedList = [...ranked];
-      // Remove dragged item
-      const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1);
-      // Add dropped item
-      updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
-      // Update State
-      setRanked(updatedList);
-    };
-
-    const submit = () => {
-      setIsLoading(true);
-      const data_ = {
-        id: data?.pollById.id,
-        ranked,
-      }
-      createVote(data_).then(result => {
-        setIsLoading(false);
-        if (result.error) {
-          console.error('Oh no!', result.error);
-        }else{
-          console.log('result', result);
-        }
-        setVoted(true);
-      });
-    }
-
-    const redirectToSigin = () => {
-      router.push(`/verify-email?token=${token}`)
-    }
+export default function Poll({ params }: { params: { token: string } }) {   
+    const id = params.token
+    const [res] = useQuery({query: FETCH_POLL_BY_ID, variables: {id}});
+    const { data, fetching, error } = res;
 
   return (
     <main className={stylesMain.main}>
@@ -94,37 +45,23 @@ export default function RankPage({ params }: { params: { token: string } }) {
         >
             <p style={styles.title2}>Poll</p>
             <KeyboardArrowRight />
-            <p style={styles.text}>{data_?.voterStatus.title}</p>
+            <p style={styles.text}>{data?.pollById.title}</p>
         </Grid>
       </Grid>
 
-      
+      {fetching ? (
+          <Grid
+            justifyContent="center"
+            alignItems="center"
+          >
+            <ActivityIndicator />
+          </Grid>
+      ): (
 
-     {voted ?(
       <Grid
         justifyContent="center"
         alignItems="center"
-      >
-        <Grid
-             container
-             direction="column"
-             sx={{ m: 2, width: cardWidth }}
-             style={styles.card}
-        >
-            <h4>You have voted!</h4>
-            <p>Your vote has been recorded successfully, thank you.</p>
-            <p>Follow the result
-                <Link href={`/result/${token}`}>
-                  <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
-                </Link>
-            </p>
-        </Grid>
-      </Grid>
-     ) : (
-      <Grid
         container
-        justifyContent="center"
-        alignItems="center"
       >
         <Grid
           container
@@ -132,149 +69,131 @@ export default function RankPage({ params }: { params: { token: string } }) {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-        
-        {fetching || fetching_ && (
+        <ResultHeader data={data}/>
+        <Grid
+          justifyContent="center"
+          alignItems="center"
+          container
+        >
+          {data?.pollById.voted ? (
+            <CustomButton 
+                border="1px solid #E14817"
+                title="You have voted! 😁"
+                textColor="#E14817"
+            />
+          ): (
+            <Link href={`/rank/${data?.pollById.token}`}>
+                <CustomButton 
+                    color="#E14817" 
+                    border="1px solid #fff"
+                    title="Vote Now" 
+                    Icon={<East />}
+                />
+            </Link>
+          )}
+        </Grid>
+        <Grid container style={styles.resultCard}>
+        {data?.pollById.status.toLowerCase() === 'ongoing' ? (
           <Grid
             container
             direction="column"
-            justifyContent="center"
-            alignItems="center"
+            style={styles.card}
           >
-            <ActivityIndicator />
-          </Grid>
-        )}
+            
+            <h4 style={{ textAlign: 'center'}}>Poll is Ongoing</h4>
 
-        {!fetching_ && !fetching && !data_?.voterStatus.isValid && (
             <Grid
               container
               direction="column"
+              alignContent="center"
               justifyContent="center"
-              alignItems="center"
             >
-                <h2>Wrong Turn</h2>
-                <p>This link is invalid</p>
+            <LinkCard 
+                type={data?.pollById.type} 
+                token={data?.pollById.token} 
+                title={data?.pollById.title} 
+            />
             </Grid>
-          )}
 
-          {!fetching_ && !fetching && data_?.voterStatus.isValid && !data_?.voterStatus.isLoggedIn && (
-            redirectToSigin()
-          )}
-
-          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus === 'completed' && data_?.voterStatus.isLoggedIn && (
-            <Grid 
+            <Grid
               container
               direction="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-                <h2>Hello, Poll has ended.</h2>
-                <p>Voting has ended on this poll</p>
-                <p>Title: {data_?.voterStatus.title} </p>
-                <p>Check the result
-                  <Link href={`/result/${token}`}>
-                    <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
-                  </Link>
-                </p>
-            </Grid>
-          )}
-
-          {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.voted && data_?.voterStatus.pollStatus !== 'completed' && data_?.voterStatus.isLoggedIn && (
-            <Grid 
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-                <h2>Hello {data_?.voterStatus.name}, You have voted</h2>
-                <p>Title: {data_?.voterStatus?.title} </p>
-                <p>Check the result
-                  <Link href={`/result/${token}`}>
-                    <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
-                  </Link>
-                </p>
-            </Grid>
-          )}
-
-        {!fetching && !fetching_ && data_?.voterStatus.isValid && data_?.voterStatus.pollStatus !== 'completed' && !data_?.voterStatus.voted && data_?.voterStatus.isLoggedIn && (
-          <Grid
-            container
-          >
-            <RankHeader data={data}/>
-          <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              sx={{ width: '100%' }}
+              sx={{ m: 2, width: cardWidth }}
               style={styles.card}
-          >
-              <p style={styles.title2}>Contestants</p>
-              <Grid>
-                {isLoading ? (
-                  <ActivityIndicator />
-                ): (
-                  <Button 
-                    sx={styles.button} 
-                    variant="contained"
-                    onClick={() => submit()}
-                >
-                    Submit
-                </Button>
-                )}
-              </Grid>
-          </Grid>
-          <Grid
-            container
-            direction="column"
-          >
-              <DragDropContext onDragEnd={handleDrop}>
-                <Droppable droppableId="list-container">
-                {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    <Grid sx={styles.listContainer}>
-                    {ranked.map((item: any, index: any) => (
-                      <Draggable key={item} draggableId={item} index={index}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.dragHandleProps}
-                            {...provided.draggableProps}
-                          >
+            >
+              <h4>
+                Contestants ({data?.pollById.contestants?.length})
+              </h4>
+              <List>
+                  {data?.pollById.contestants?.map((c: any) => ( 
+                    <ListItem key={c}>
+                      <ListItemIcon>
+                          <Grid 
+                            style={{ 
+                                  height: '10px', 
+                                  width: '10px',
+                                  borderRadius: '50%',
+                                  backgroundColor: bgColor(),
+                                }} 
+                          />
+                      </ListItemIcon>
+                      <ListItemText
+                          primary={c.toUpperCase()}
+                      />
+                    </ListItem>
+                  ))}
+              </List>
+            </Grid>
+
+            {data?.pollById.type.toLowerCase() === 'private' && (
+            <Grid
+                container
+                direction="column"
+                sx={{ m: 2, width: cardWidth }}
+                style={styles.card}
+            >
+              <h4>Voters ({data?.pollById.voters?.length})</h4>
+              <List>
+                  {data?.pollById.voters?.map((c: any) => ( 
+                      <ListItem key={c}>
+                          <ListItemIcon>
                             <Grid 
-                              style={styles.itemContainer} 
-                              sx={{backgroundColor: bgColor()}}
-                            >
-                              <p>{item.toUpperCase()}</p>
-                              <Icon name="drag" />
-                            </Grid>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                    </Grid>
-                  </div>
-                )}
-                </Droppable>
-              </DragDropContext>
+                              style={{ 
+                                    height: '10px', 
+                                    width: '10px',
+                                    borderRadius: '50%',
+                                    backgroundColor: bgColor(),
+                                  }} 
+                            />
+                          </ListItemIcon>
+                          <ListItemText
+                              primary={c}
+                          />
+                      </ListItem>
+                  ))}
+              </List>
+            </Grid>
+          )}
+
+            </Grid>
+          ): (
+              <ResultCard data={data?.pollById?.resultSet[0] || "[]"}/>
+          )}
           </Grid>
-          </Grid>
-        )}
         
       </Grid>
       </Grid>
       )}
+
       <Grid
         container
       >
-        <Footer1 />
         <Footer2 />
       </Grid>
     </main>
   );
 }
+
 
 const styles = {
   input: {
@@ -283,10 +202,6 @@ const styles = {
   card: {
     padding: "1rem",
   },
-  rankCard: {
-    margin: "1rem",
-    backgroundColor: "#fff",
-  },
  linkCard: {
     border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
     marginTop: 5,
@@ -294,33 +209,14 @@ const styles = {
  linkField: {
     padding: 2,
  },
- listContainer: {
-    display: "flex",
-    fontSize: 18,
-    backgroundColor: "#fff",
-    flexDirection: "column",
-    borderRadius: '5px',
-    padding: '1rem',
+ titleCard: {
+  padding: '2rem',
+  backgroundColor: '#fff',
+  },
+  titleContainer: {
+    backgroundColor: '#D4D4D8',
+    minHeight: '5vh',
     width: '100%',
-    marginBottom: '1rem',
-  },
-  itemContainer: {
-    color: "#fff",
-    border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
-    borderRadius: '.5rem',
-    padding: '1rem',
-    margin: '1rem',
-    height: '5rem',
-    justifyContent: "space-between",
-    alignItems: "center",
-    display: "flex",
-  },
-  title: {
-    fontSize: '2rem',
-    fontWeight: 'bold',
-    color: '#000',
-    margin: '0',
-    padding: '0',
   },
   title2: {
     fontSize: '1.5rem',
@@ -335,36 +231,13 @@ const styles = {
     padding: '0',
     color: '#000'
   },
-  titleCard: {
-    padding: '2rem',
-    backgroundColor: '#fff',
-  },
-  titleContainer: {
-    backgroundColor: '#D4D4D8',
-    minHeight: '5vh',
-    width: '100%',
-  },
-  titleContainer1: {
-    backgroundColor: '#D4D4D8',
-    minHeight: '15vh',
-    width: '100%',
-    padding: '2rem',
-  },
-   coloredText: {
-    color: "#E14817",
-    fontSize: '1rem',
-  },
-  coloredBox: {
+  resultCard: {
     backgroundColor: "#fff",
-    height: '2rem',
-    borderRadius: '0.5rem',
-  },
-  spacing: {
-    marginTop: '2rem',
-  },
-  button: {
-    width: '10rem', 
-    backgroundColor: '#E14817',
-    borderRadius: 'var(--border-radius)',
-  }
+    minHeight: '40vh',
+    width: '100%',
+    padding: '1rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    borderRadius: '1rem',
+   }
 };

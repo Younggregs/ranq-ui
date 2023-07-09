@@ -90,7 +90,7 @@ export default function Signup() {
 
   const redirectTo = () => {
     if (pollToken) {
-      router.push(`/${pollToken}`)
+      router.push(`/rank/${pollToken}`)
     }else{
       router.push('/')
     }

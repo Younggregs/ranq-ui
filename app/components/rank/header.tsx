@@ -44,6 +44,12 @@ export default function RankHeader({data}: {data: any}) {
                     </p>
                   </Grid>
                 </Grid>
+                <br />
+                <p style={styles.text}>
+                  <i><b>Voting Tips:</b>
+                  This is a rank vote, drag and drop the contestants to rank them in order of preference, the first contestant is your most preferred, the last is your least preferred.
+                  </i>
+                </p>
             </Grid>
     )
 }

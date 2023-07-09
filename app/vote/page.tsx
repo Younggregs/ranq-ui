@@ -105,7 +105,7 @@ export default function Vote() {
                 <p>Voting has ended on this poll</p>
                 <p>Title: {data.pollStatus.title} </p>
                 <p>Check the result
-                  <Link href={`/result/${token}`}>
+                  <Link href={`/${token}`}>
                     <span style={{color: '#0000ff', padding: 2}}><b>here</b></span>
                   </Link>
                 </p>
