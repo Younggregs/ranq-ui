@@ -70,28 +70,7 @@ export default function Poll({ params }: { params: { token: string } }) {
           alignItems="flex-start"
         >
         <ResultHeader data={data}/>
-        <Grid
-          justifyContent="center"
-          alignItems="center"
-          container
-        >
-          {data?.pollById.voted ? (
-            <CustomButton 
-                border="1px solid #E14817"
-                title="You have voted! 😁"
-                textColor="#E14817"
-            />
-          ): (
-            <Link href={`/rank/${data?.pollById.token}`}>
-                <CustomButton 
-                    color="#E14817" 
-                    border="1px solid #fff"
-                    title="Vote Now" 
-                    Icon={<East />}
-                />
-            </Link>
-          )}
-        </Grid>
+        
         <Grid container style={styles.resultCard}>
         {data?.pollById.status.toLowerCase() === 'ongoing' ? (
           <Grid
@@ -101,20 +80,6 @@ export default function Poll({ params }: { params: { token: string } }) {
           >
             
             <h4 style={{ textAlign: 'center'}}>Poll is Ongoing</h4>
-
-            <Grid
-              container
-              direction="column"
-              alignContent="center"
-              justifyContent="center"
-            >
-            <LinkCard 
-                type={data?.pollById.type} 
-                token={data?.pollById.token} 
-                title={data?.pollById.title} 
-            />
-            </Grid>
-
             <Grid
               container
               direction="column"
@@ -174,6 +139,42 @@ export default function Poll({ params }: { params: { token: string } }) {
               </List>
             </Grid>
           )}
+
+        <Grid
+          justifyContent="center"
+          alignItems="center"
+          container
+        >
+          {data?.pollById.voted ? (
+            <CustomButton 
+                border="1px solid #E14817"
+                title="You have voted! 😁"
+                textColor="#E14817"
+            />
+          ): (
+            <Link href={`/rank/${data?.pollById.token}`}>
+                <CustomButton 
+                    color="#E14817" 
+                    border="1px solid #fff"
+                    title="Vote Now" 
+                    Icon={<East />}
+                />
+            </Link>
+          )}
+        </Grid>
+
+            <Grid
+              container
+              direction="column"
+              alignContent="center"
+              justifyContent="center"
+            >
+            <LinkCard 
+                type={data?.pollById.type} 
+                token={data?.pollById.token} 
+                title={data?.pollById.title} 
+            />
+            </Grid>
 
             </Grid>
           ): (
