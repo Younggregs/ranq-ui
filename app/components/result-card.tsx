@@ -5,10 +5,10 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography 
 import ResultTable from "./result-table";
 
 export default function Result({data}: {data: any}) { 
-    const [type, setType] = React.useState('');
+    const [type, setType] = React.useState('rankRaiseBar');
 
     const techniques = [
-        {value: 'popularVote', label: 'Popular Vote'},
+        // {value: 'popularVote', label: 'Popular Vote'},
         {value: 'rankRaiseBar', label: 'Rank 1 Technique'},
     ]
 
@@ -30,6 +30,7 @@ export default function Result({data}: {data: any}) {
                 defaultValue=""
                 helperText="Please select result type"
                 onChange={(e) => setType(e.target.value)}
+                value="rankRaiseBar"
                 style={styles.textField}
                 >
                 {techniques.map((option) => (
