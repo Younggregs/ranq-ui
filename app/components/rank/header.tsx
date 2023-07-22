@@ -1,5 +1,6 @@
 import { Grid } from "@/app/lib/mui";
 import Countdown from "../countdown";
+import HowToVideo from "./how-to-video";
 
 
 export default function RankHeader({data}: {data: any}) {
@@ -49,6 +50,9 @@ export default function RankHeader({data}: {data: any}) {
                   <i><b>Voting Tips:</b>
                   This is a rank vote, drag and drop the contestants to rank them in order of preference, the first contestant is your most preferred, the last is your least preferred.
                   </i>
+                </p>
+                <p style={styles.text}>
+                  <HowToVideo />
                 </p>
             </Grid>
     )
